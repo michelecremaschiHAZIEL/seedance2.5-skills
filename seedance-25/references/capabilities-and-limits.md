@@ -83,7 +83,6 @@ The official Dreamina User Guide lists 480p and 720p output for Seedance 2.5. Do
 ## Rules for Factual Claims
 
 1. Scope these values to official Dreamina Seedance 2.5 material. Do not extend them to an unknown surface.
-2. Rebrowse current official documentation before answering questions about APIs, pricing, regions, model IDs, quotas, accounts, or rollout status.
-3. If the active surface is unknown, still write the prompt but describe operations conditionally, such as “if your surface exposes video extension.”
-4. If two official passages differ semantically, prefer the more task-specific table and disclose the discrepancy.
-5. Never let a third-party blog override official documentation. Use third-party information only as a lead that still requires verification.
+2. If the active surface is unknown, still write the prompt but describe operations conditionally, such as “if your surface exposes video extension.”
+3. If two official passages differ semantically, prefer the more task-specific table and disclose the discrepancy.
+4. Never let a third-party blog override official documentation. Use third-party information only as a lead that still requires verification.
