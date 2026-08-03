@@ -4,6 +4,8 @@
 The linter can recognize common English and Chinese prompt structures. All
 source documentation and user-facing output remain English. These checks do
 not predict generation quality or verify that a platform bound a reference.
+For unknown surfaces, the linter enforces a conservative 30-second ceiling
+for one direct generation.
 """
 
 from __future__ import annotations
@@ -122,9 +124,11 @@ def infer_mode(text: str, requested: str) -> str:
     if contains_any(
         text,
         (
-            "ultra long",
+            "multi-clip production",
+            "long-form production",
+            "several clips",
             "[stage",
-            "\u8d85\u957f\u89c6\u9891",
+            "\u591a\u7247\u6bb5\u5236\u4f5c",
             "\u3010\u9636\u6bb5",
         ),
     ):
@@ -179,6 +183,20 @@ def lint_timeline(text: str, duration: float | None) -> list[Issue]:
                 )
         previous_end = max(previous_end or end, end)
     return issues
+
+
+def lint_duration(duration: float | None) -> list[Issue]:
+    if duration is None or duration <= 30:
+        return []
+    return [
+        Issue(
+            "error",
+            "duration-exceeds-generic-limit",
+            f"The planned {duration:g}s duration exceeds the generic 30s limit "
+            "for one direct generation. Split the production into clips of no "
+            "more than 30 seconds.",
+        )
+    ]
 
 
 def lint_references(text: str) -> list[Issue]:
@@ -619,6 +637,7 @@ def lint_prompt(
 
     detected_mode = infer_mode(clean, mode)
     issues: list[Issue] = []
+    issues.extend(lint_duration(duration))
     issues.extend(lint_timeline(clean, duration))
     issues.extend(lint_references(clean))
     issues.extend(lint_mode(clean, detected_mode, duration))
@@ -661,6 +680,10 @@ action, composition, camera, dialogue, and ambience.
     if inferred_mode != "extend":
         failures.append("extension was misclassified as first-last")
 
+    _, issues = lint_prompt("[Stage 1] One event. End state: complete.", "long", 31)
+    if not any(issue.code == "duration-exceeds-generic-limit" for issue in issues):
+        failures.append("duration above the generic 30-second limit was not detected")
+
     return failures
 
 
@@ -692,7 +715,7 @@ def main() -> int:
     parser.add_argument(
         "--duration",
         type=float,
-        help="planned generation duration in seconds",
+        help="planned duration for one generation in seconds; generic maximum is 30",
     )
     parser.add_argument(
         "--json",

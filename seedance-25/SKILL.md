@@ -1,6 +1,6 @@
 ---
 name: seedance-25
-description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, 30-second or ultra-long video, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, or a failed Seedance 2.5 generation. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
+description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, or a failed Seedance 2.5 generation. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
 ---
 
 # Seedance 2.5 Director
@@ -22,7 +22,7 @@ Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5
 Extract the following fields from information already supplied. Ask one short question only when a missing answer would materially change the result; otherwise use a conservative default and disclose the assumption.
 
 - Goal: what the viewer should see, understand, or feel.
-- Surface and task mode: text-only, multimodal reference, first-frame, first/last-frame, edit, extend, ultra-long, one-click video, transition, storyboard, or blockout rendering.
+- Surface and task mode: text-only, multimodal reference, first-frame, first/last-frame, edit, extend, multi-clip production, one-click video, transition, storyboard, or blockout rendering.
 - Duration, aspect ratio, and resolution: return configurable values as generation settings instead of prompt prose.
 - Assets: what each image, video, and audio clip can actually contribute.
 - Must preserve versus may change: identity, wardrobe, product structure, prop ownership, geography, camera, motion, and audio.
@@ -36,7 +36,7 @@ Extract the following fields from information already supplied. Ask one short qu
 | Clear standalone shot | Basic generation | One primary visible event and one primary camera move |
 | Image, video, or audio references | Multimodal reference | Give each asset a defined role and exclusions |
 | Several events within 30 seconds | Staged generation | One primary state change and a visible end state per stage |
-| 30–180 seconds | Ultra-long video | Establish global rules, then allocate events by scene or stage |
+| More than 30 seconds | Multi-clip production plan | Split the work into independently generated clips of no more than 30 seconds |
 | Modify existing footage | Video edit | Declare one master video, edit scope, and preserved content |
 | Continue existing footage | Forward or backward extension | Ground the prompt in the observed boundary frame and open motion |
 | Two endpoints or several states | First/last frame or keyframes | Define every anchor independently and connect them with continuous action |
@@ -106,6 +106,7 @@ Before delivery, confirm:
 - Camera does not hide the decisive action; style does not override identity or continuity.
 - An edit defines the sole master, scope, target count, and preserved content.
 - An extension defines boundary state, motion vector, camera phase, and audio continuity.
+- One direct generation does not exceed 30 seconds; longer work is split into independently generated clips.
 - Time ranges are consecutive, non-overlapping, and not overloaded.
 - No unverified surface feature or value is presented as certain.
 
@@ -134,5 +135,5 @@ For diagnostics, return: `Verdict → Evidence → One changed variable → Repa
 ## Reference Routing
 
 - Counts, durations, resolutions, modes, locked parameters, or known limitations: read [capabilities-and-limits.md](references/capabilities-and-limits.md).
-- Multimodal work, 30-second or ultra-long video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, or professional camera terminology: read the matching section of [task-patterns.md](references/task-patterns.md).
+- Multimodal work, 30-second or multi-clip long-form video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, or professional camera terminology: read the matching section of [task-patterns.md](references/task-patterns.md).
 - Failed output, partial success, identity drift, camera jumps, audio-video issues, or retry budgets: read [quality-and-repair.md](references/quality-and-repair.md).

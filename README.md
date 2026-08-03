@@ -58,7 +58,7 @@ The result is a prompt that is easier to generate, review, repair, and hand to a
 - revise, compress, or translate an existing prompt;
 - choose the correct generation path before writing prose;
 - map image, video, and audio references to explicit roles;
-- plan standard, staged, and ultra-long generations;
+- plan standard, staged, and multi-clip long-form productions;
 - write edit, extension, endpoint, storyboard, blockout, and transition prompts;
 - preserve identity, geometry, prop ownership, geography, camera phase, and audio continuity;
 - diagnose a failed take and choose between keep, post, edit, re-roll, or rewrite;
@@ -83,12 +83,11 @@ The following values come from the official Dreamina Seedance 2.5 guides listed 
 | Video references | Up to 10; no more than 30 seconds combined |
 | Audio references | Up to 10; no more than 30 seconds combined |
 | Standard generation | 4–30 seconds |
-| Ultra Long Video | 30–180 seconds |
 | One extension operation | 4–30 seconds |
 | Nested extension | Final output up to 60 seconds |
 | Listed output resolutions | 480p and 720p |
 
-A maximum is not a target. The skill removes references that control nothing and selects only the assets required for the current scene.
+For a generic or unknown Seedance 2.5 surface, one direct generation must not exceed 30 seconds. Plan longer work as several independently generated clips. A maximum is not a target: the skill removes references that control nothing and selects only the assets required for the current scene.
 
 Current API fields, model IDs, pricing, quotas, regions, accounts, rollout status, and surface availability are intentionally outside the frozen knowledge boundary. They must be checked against current official documentation at the time of use.
 
@@ -118,7 +117,7 @@ Choose the path by production intent, not by how many adjectives appear in the b
 | One clear standalone shot | Basic generation | One primary visible event and one primary camera move |
 | Image, video, or audio references | Multimodal reference | One defined role and explicit exclusions per asset |
 | Several events within 30 seconds | Staged generation | One state change and one visible end state per stage |
-| 30–180 seconds | Ultra-long video | Global canon followed by scene-level event budgets |
+| More than 30 seconds | Multi-clip production | Split the work into independently generated clips of no more than 30 seconds |
 | Modify existing footage | Video edit | One sole master, one edit scope, and a preservation list |
 | Continue accepted footage | Forward or backward extension | The observed boundary frame is continuity truth |
 | Two endpoints | First/last-frame generation | Separate endpoint definitions joined by continuous action |
@@ -294,6 +293,7 @@ Supported explicit modes are `base`, `reference`, `long`, `edit`, `extend`, `fir
 
 The linter checks for risks including:
 
+- a planned direct-generation duration above 30 seconds;
 - invalid, overlapping, gapped, or out-of-duration time ranges;
 - several references without roles or exclusions;
 - edits without a sole master, narrow scope, or preservation list;

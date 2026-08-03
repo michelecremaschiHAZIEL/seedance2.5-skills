@@ -46,17 +46,16 @@ Additional guidance:
 | Function | Range in official 2.5 material | Notes |
 |---|---|---|
 | Standard generation | 4–30 seconds | The User Guide also lists 97–721 frames |
-| Ultra Long Video | 30–180 seconds | Direct generation without repeated extension |
 | One extension operation | 4–30 seconds | Available only when the source used as the extension base is under 30 seconds |
 | Nested extension | Final output up to 60 seconds | Extreme example: extend a 30-second source by another 30 seconds |
 
-Do not conflate standard 30-second generation, 30–180-second Ultra Long Video, and extension up to a 60-second final output.
+For a generic or unknown Seedance 2.5 surface, treat 30 seconds as the maximum duration of one direct generation. Plan anything longer as several independently generated clips. Treat extension ranges as surface-specific and verify that the active surface exposes the operation before recommending it.
 
 Treat timestamps as event budgets, not frame-accurate edit points. Actions may occur slightly before or after a range boundary.
 
 ## Task Modes and Locked Parameters
 
-The official Dreamina User Guide names Omni Reference, Smart Edit, Long Video, and First and Last Frames, plus generated-video workflows for Video Editing, Extend Video, Seamless Video Transition, Multi-grid Storyboard, and Clay Renderer.
+For its generic scope, this skill retains the official guide's Omni Reference, Smart Edit, First and Last Frames, Video Editing, Extend Video, Seamless Video Transition, Multi-grid Storyboard, and Clay Renderer workflows. It does not generalize Dreamina-only modes, and availability outside Dreamina is not implied.
 
 | Task | Aspect ratio | Duration |
 |---|---|---|

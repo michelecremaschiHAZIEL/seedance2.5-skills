@@ -5,7 +5,7 @@
 - [Usage principles](#usage-principles)
 - [Basic generation](#basic-generation)
 - [Multimodal references](#multimodal-references)
-- [Thirty-second and ultra-long video](#thirty-second-and-ultra-long-video)
+- [Thirty-second and multi-clip video](#thirty-second-and-multi-clip-video)
 - [Video editing](#video-editing)
 - [Forward and backward extension](#forward-and-backward-extension)
 - [First/last frames and multiple keyframes](#firstlast-frames-and-multiple-keyframes)
@@ -108,7 +108,7 @@ All three images define one product. The entire output contains exactly one <Pro
 
 Never write “Use all references for style.” Remove every asset that has no role.
 
-## Thirty-Second and Ultra-Long Video
+## Thirty-Second and Multi-Clip Video
 
 ### Staged Video Within 30 Seconds
 
@@ -156,34 +156,32 @@ Check that:
 - too much content does not force cuts or omissions;
 - timestamps are not presented as frame-accurate edit points.
 
-### Ultra-Long Video: 30–180 Seconds
+### Long-Form Production Beyond 30 Seconds
 
-Treat Ultra Long Video as a scene plan, not a longer sentence:
+Do not write one direct-generation prompt longer than 30 seconds. Split the production into independently generated clips of no more than 30 seconds, and carry accepted continuity forward:
 
 ```text
-[Global Setup]
-Theme and story objective: <goal>.
-Character profiles and fixed props: <canon>.
-World, visual, and audio rules: <rules>.
-Must preserve: <locks>.
+[Global Production Canon]
+Story objective: <goal>.
+Character profiles, wardrobe, and fixed props: <canon>.
+World, visual, camera, and audio rules: <rules>.
 
-[Scene 1 | Time Range]
+[Clip 1 | Maximum 30 Seconds]
 Narrative job: <purpose>.
-Primary event and end state: <event/state>.
-Camera and edit: <coverage>.
-Sound: <audio>.
+Opening state: <state>.
+Primary event and visible end state: <event/state>.
+Camera and sound: <coverage/audio>.
 
-[Scene 2 | Time Range]
-Inherited state: <continuity>.
-Narrative job: <purpose>.
-Primary event and end state: <event/state>.
-...
+[Clip 2 | Maximum 30 Seconds]
+Continuity source: accepted Clip 1 or its observed final boundary frame.
+Opening state: <observed pose, props, space, camera phase, motion, and audio phase>.
+Primary event and visible end state: <event/state>.
 
-[Ending]
-Final visible state and audio endpoint: <ending>.
+[Remaining Clips]
+Repeat the accepted-boundary process. Do not advance continuity from a rejected or merely planned endpoint.
 ```
 
-Control scene and event density before adding style. When exact continuity matters more than one-pass output, recommend several reviewable clips rather than forcing a 180-second generation.
+Generate and review each clip separately. Preserve a continuity record across accepted clips, and use editing or post-production to assemble the final long-form video.
 
 ## Video Editing
 
