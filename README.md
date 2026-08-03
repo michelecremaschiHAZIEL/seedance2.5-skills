@@ -17,6 +17,12 @@
 </p>
 
 <p align="center">
+  <strong>English</strong> ·
+  <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="README.ja.md">日本語</a>
+</p>
+
+<p align="center">
   <a href="#why-this-repository-exists">Why</a> ·
   <a href="#what-the-skill-does">Capabilities</a> ·
   <a href="#start-here">Start here</a> ·
@@ -358,6 +364,8 @@ The skill responds in the user’s requested output language, but all bundled sk
 ```text
 seedance2.5-skills/
 ├── README.md
+├── README.zh-CN.md
+├── README.ja.md
 ├── assets/
 │   ├── reference-role-map.svg
 │   ├── seedance-25-hero.png
@@ -443,4 +451,3 @@ The governing idea is simple:
 
 - Official Dreamina Seedance 2.5 documentation for capability and workflow facts.
 - [Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0) for the high-quality open-source reference architecture that informed this repository’s organization and production reasoning.
-
