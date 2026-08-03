@@ -227,10 +227,25 @@ Preserve subject identity, face, hair, wardrobe, expression, position, scale, mo
 
 ### Audio Edit
 
-Name the speaker or sound category, the exact change, and every sound to preserve:
+Dialogue, language, voice, background music, and sound effects may be edited independently. Name the speaker or sound category, the exact change, and every sound to preserve:
 
 ```text
 Edit @Video 1. Remove only the original background music. Preserve character dialogue, lip sync, ambience, and action sound effects, and keep all visuals, camera treatment, and edit rhythm unchanged.
+```
+
+For a reference-driven voice or sound replacement, let the source video remain the sole timing and picture master:
+
+```text
+@Video 1 is the sole editing master. It defines all visuals, speaker timing, lip sync, other voices, ambience, music, sound effects, and event order.
+@Audio 1 defines only <speaker or sound category>'s <voice characteristics, accent, delivery, or sound quality>. Do not use unrelated speakers, words, music, ambience, or timing from @Audio 1.
+
+Change only <speaker or sound category> in @Video 1 to match the specified attributes from @Audio 1. Preserve the original dialogue content and speaking times unless the edit goal explicitly changes them. Keep every other visual and audio category from @Video 1 unchanged.
+```
+
+For a language-only edit:
+
+```text
+Edit @Video 1. Change only <Presenter>'s spoken language to natural American English while preserving the dialogue content and speaking times. Keep all other voices, background music, ambience, sound effects, visuals, camera treatment, and edit rhythm unchanged.
 ```
 
 ## Forward and Backward Extension
@@ -282,6 +297,8 @@ Use matching aspect ratios. Define each endpoint separately instead of combining
 
 ### Multiple Keyframes
 
+Prefer one independent image per keyframe. Separate anchor images are usually easier to align than several key states combined into one grid.
+
 ```text
 Use @Image 1 → @Image 2 → @Image 3 → @Image 4 as keyframes in this order.
 @Image 1 is the first frame: <state>.
@@ -317,6 +334,8 @@ Final visual treatment: <style>. Audio: <dialogue, ambience, effects, or music>.
 
 A coarse blockout controls the temporal and spatial skeleton: paths, blocking, camera, cuts, light changes, and sound rhythm. Map every geometric object independently.
 
+Use simple geometry with clear spatial relationships and a complete action sequence. Include arms, wings, or other appendages only when their full motion is defined; incomplete appendage motion may produce stiff movement or structural misinterpretation. If source audio matters, state separately whether to inherit dialogue, music, ambience, action sound effects, or only their rhythm.
+
 ```text
 @Video 1 is a coarse blockout. Use only motion paths, subject blocking, camera position and movement, cuts, light changes, and rhythm. Do not use its gray appearance, materials, or empty environment.
 <Geometric Shape A> in @Video 1 corresponds to <Character A>. <Shape B> corresponds to <Prop B>.
@@ -345,7 +364,7 @@ Remove path lines, axes, rig controls, and camera frustums from a fine blockout 
 ```text
 [Asset Roles]
 @Image 1 supplies the opening environment. @Image 2 supplies the character/product. @Image 3 supplies the ending image.
-@Video 1 supplies only edit rhythm, transition treatment, or graphic packaging. Do not transfer people or locations.
+@Video 1 supplies only edit rhythm, transition treatment, subtitle treatment, graphic packaging, or music style. Do not transfer people, locations, dialogue, or other source audio unless separately assigned.
 
 [Order]
 Show assets in <specified order>. Keep <character/product/location relationships> consistent.
@@ -416,9 +435,18 @@ The overall emotion shifts from <starting state> to <ending state>. After <trigg
 
 Use two to four visible or audible cues for one turn. Use event-triggered stages only when emotion changes several times.
 
+For several emotional changes, bind each change to an observed event instead of assigning moods by time alone:
+
+```text
+When <Character A> hears or sees <first trigger>, <immediate observable reaction>.
+When <second trigger> occurs, <change in gaze, expression, breathing, posture, or voice>.
+After confirming <critical information>, the emotion that <Character A> tries to restrain gradually becomes visible through <observable behavior>.
+Finally, <final action, expression, or manner of speaking> establishes the ending emotional state.
+```
+
 ## Camera Language
 
-Common shot sizes and movements can be written directly: extreme wide, wide, medium, close-up, extreme close-up; push, pull, pan, truck, track, orbit, dive, crane, handheld; low angle, overhead, first-person.
+Common shot sizes and movements can be written directly: extreme wide, wide, medium, close-up, extreme close-up; push in, pull out, pan, lateral move, follow shot, track, truck, orbit, dive, dolly out, tilt up, crane, handheld; low angle, overhead, first-person.
 
 Bind every camera term to:
 
@@ -432,6 +460,28 @@ Explain uncommon terms as `term + target subject + visible change + foreground/b
 
 ```text
 Rack focus: shift focus smoothly from foreground leaves to the person in the background. The leaves gradually blur while the person’s face changes from soft to sharp.
+```
+
+For popular techniques, specify the controlling dimensions instead of relying on the term alone:
+
+| Technique | State explicitly |
+|---|---|
+| One-take shot | Subjects, spaces, and events the continuous camera passes through in order |
+| Dolly zoom | Subject size to preserve and whether the background appears to move closer or farther away |
+| Aerial view | Viewing height, movement direction, and environmental area to reveal |
+| FPV | First-person traversal or flight path, speed, and turns |
+| Bullet time | Action to freeze or slow and the camera's orbit direction |
+| Handheld camera | Subject being followed and the intended amount of shake |
+| Bounce speed ramp | Acceleration, deceleration or rebound point, and final resting state |
+
+Translate visual treatments into visible outcomes:
+
+```text
+Shallow depth of field: keep <Subject A>'s eyes and face sharp while background lights become soft circular bokeh.
+Tracking shot: move laterally at <Subject A>'s speed, keeping the subject sharp while the background forms horizontal motion blur in the opposite direction.
+Golden hour: warm low-angle sunlight enters from behind and camera left, creating long shadows across <environment>.
+Natural vignette: darken the four corners gradually while preserving natural brightness and skin tone at the center, with no black border.
+Whip-pan transition: at <critical beat>, pan rapidly <direction>; cut when <foreground object> fully covers the frame, then continue at a similar speed in the next scene.
 ```
 
 Focal length, aperture, and shutter values may supplement direction, but a visible result is usually clearer than a number alone.

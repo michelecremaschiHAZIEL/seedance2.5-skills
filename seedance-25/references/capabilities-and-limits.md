@@ -76,6 +76,7 @@ The official Dreamina User Guide lists 480p and 720p output for Seedance 2.5. Do
 - First and last frames constrain endpoints; the model still generates the continuous action between them.
 - Multiple keyframes control stage order and key states, not every intermediate frame.
 - Extension boundaries should connect visually but are not guaranteed to be pixel-identical. Review both sides of the boundary and the full extension.
+- The extended segment's audio volume may differ slightly from the source video. Review loudness across the boundary and normalize it in post when necessary.
 - Seamless transitions target audiovisual continuity, not pixel-identical preservation of both source clips.
 - Use prepared reference material and post-production for subtitles, formulas, logos, product specifications, or frame-accurate timing that must be exact.
 - Negative instructions can reduce random subtitles and irrelevant background music, but do not present them as guarantees.

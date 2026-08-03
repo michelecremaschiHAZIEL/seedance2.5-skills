@@ -134,5 +134,5 @@ For diagnostics, return: `Verdict → Evidence → One changed variable → Repa
 ## Reference Routing
 
 - Counts, durations, resolutions, modes, locked parameters, or known limitations: read [capabilities-and-limits.md](references/capabilities-and-limits.md).
-- Multimodal work, 30-second or ultra-long video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, or audio syntax: read the matching section of [task-patterns.md](references/task-patterns.md).
+- Multimodal work, 30-second or ultra-long video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, or professional camera terminology: read the matching section of [task-patterns.md](references/task-patterns.md).
 - Failed output, partial success, identity drift, camera jumps, audio-video issues, or retry budgets: read [quality-and-repair.md](references/quality-and-repair.md).
