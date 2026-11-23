@@ -73,7 +73,7 @@ A web URL goes through `media_import_url`. `medias[].value` takes only media IDs
 ## Generation Sequence
 
 1. **Lint** the final prompt (SKILL.md, step 6).
-2. **Quality**: ask the user, in one question, how to render, unless they already named a resolution or a draft in this conversation. Offer, in this order:
+2. **Quality**: ask the user, in one question, how to render, unless they already named a resolution or a draft in this conversation. Ask it in the last intake round of SKILL.md step 1, before the prompt is written. Offer, in this order:
    - **Draft first (recommended)**: `draft: true`, 480p, cheaper; review the take, then finalize the accepted draft at the chosen resolution (see [Drafts and finalizing](#drafts-and-finalizing)).
    - **Final directly**: `resolution` `720p`, `1080p`, or `4k`, for a prompt already proven or a simple shot.
    Name the final resolution the draft will be finalized at, so the user sees both steps.

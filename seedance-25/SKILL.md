@@ -18,9 +18,9 @@ Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5
 
 ## Workflow
 
-### 1. Build the Minimum Production Brief
+### 1. Build the Production Brief with the User
 
-Extract the following fields from information already supplied. Ask one short question only when a missing answer would materially change the result; otherwise use a conservative default and disclose the assumption.
+Extract the following fields from information already supplied, then run the intake below before writing any prompt.
 
 - Goal: what the viewer should see, understand, or feel.
 - Surface and task mode: Higgsfield unless the user names another surface; text-only, multimodal reference, first-frame, first/last-frame, edit, extend, multi-clip production, one-click video, transition, storyboard, or blockout rendering.
@@ -29,6 +29,18 @@ Extract the following fields from information already supplied. Ask one short qu
 - Must preserve versus may change: identity, wardrobe, product structure, prop ownership, geography, camera, motion, and audio.
 - Audio: dialogue language or accent, speaker, delivery, ambience, sound effects, music, or silence.
 - Rights: whether likenesses, voices, brands, music, and source assets are owned, licensed, or otherwise authorized.
+
+**Intake.** Ask the user every decision the brief leaves open, each as a question with two to four concrete options drawn from the brief, the recommended option first and marked as such. Use the AskUserQuestion tool, at most four questions per call, in rounds until no decision is open; the user can always answer with their own text. Skip a decision the user already made. Cover, in this order:
+
+1. References: whether the user has images, videos, or audio to use (a person or object to keep identical, a first or last frame, a movement or camera to copy, a clip to edit or continue, a voice or sound). Offer "no references, text only" as an option. For each file named, ask its role when the brief does not make it clear; the role map is built in step 3.
+2. Format: aspect ratio and duration; when the events need more time than the requested duration, offer a longer duration as an option and say why.
+3. Look: visual style (photoreal, animation, a period or genre look) and the subject's appearance (age, build, wardrobe).
+4. Setting and light: place details, time of day, weather, light source.
+5. Camera: shot plan and primary move, including how the shot ends.
+6. Sound: ambience and effects, music, dialogue, or silence.
+7. Render quality, when generating on Higgsfield: see [higgsfield.md](references/higgsfield.md), step 2 of the generation sequence.
+
+Write the prompt only from the answers. When the user asks for a prompt without questions, or says to choose, use the recommended options and list them as assumptions.
 
 ### 2. Select the Task Path
 
