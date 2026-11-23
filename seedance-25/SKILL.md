@@ -99,6 +99,7 @@ Apply these rules:
 
 ### 5. Apply Mode-Specific Protections
 
+- Task trigger: open an edit, extension, or keyframe prompt with a sentence that declares the task, as the official guide requires: "Edit @Video1: replace / remove / add …", "Extend @Video1 forward by N seconds: …" or "Continue from the end of @Video1: …", "Use @Image1 to @ImageN in order as keyframes." When several videos are supplied, the trigger names the one to edit or extend. The linter reports a missing trigger as an error.
 - Edit: declare one source video as the sole editing master; define the object, region, time range, or audio category to change; say “change only”; list everything to preserve.
 - Forward extension: describe the observed final frame and open motion before adding new content. Make the extension’s first frame directly continue the source video’s last frame.
 - Backward extension: describe the preceding event, then define the source video’s first frame as the extension’s explicit final state. Prevent characters, props, or effects that belong later from appearing early.

@@ -290,6 +290,7 @@ Supported explicit modes are `base`, `reference`, `long`, `edit`, `extend`, `fir
 The linter checks for risks including:
 
 - a planned direct-generation duration above 30 seconds;
+- edit, extension, or keyframe prompts whose opening sentence does not declare the task (error);
 - invalid, overlapping, gapped, or out-of-duration time ranges;
 - several references without roles or exclusions;
 - edits without a sole master, narrow scope, or preservation list;

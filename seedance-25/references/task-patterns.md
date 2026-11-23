@@ -171,19 +171,14 @@ Generate and review each clip separately. Preserve a continuity record across ac
 ### General Edit
 
 ```text
-[Edit Goal]
-Edit @Video 1. Only within <entire clip/time range>, <add/remove/replace/adjust> <object, region, or audio category>.
+Edit @Video 1: only within <entire clip/time range>, <add/remove/replace/adjust> <object, region, or audio category>.
 
-[Sole Master]
 @Video 1 is the sole editing master. It defines characters, environment, action, composition, camera, occlusion, audio, and event order.
 
-[Target Reference]
 @Image 1 defines only <attributes of target>. Do not use <irrelevant people, background, or composition>.
 
-[Edit Scope]
 Modify only <target>. Keep exactly <count> target object(s) throughout.
 
-[Preserve]
 Keep <protected content> from @Video 1 unchanged. Outside the target above, preserve all characters, props, environment, camera, cuts, audio, and event order.
 ```
 
@@ -217,7 +212,7 @@ Edit @Video 1. Remove only the original background music. Preserve character dia
 For a reference-driven voice or sound replacement, let the source video remain the sole timing and picture master:
 
 ```text
-@Video 1 is the sole editing master. It defines all visuals, speaker timing, lip sync, other voices, ambience, music, sound effects, and event order.
+Edit @Video 1: @Video 1 is the sole editing master. It defines all visuals, speaker timing, lip sync, other voices, ambience, music, sound effects, and event order.
 @Audio 1 defines only <speaker or sound category>'s <voice characteristics, accent, delivery, or sound quality>. Do not use unrelated speakers, words, music, ambience, or timing from @Audio 1.
 
 Change only <speaker or sound category> in @Video 1 to match the specified attributes from @Audio 1. Preserve the original dialogue content and speaking times unless the edit goal explicitly changes them. Keep every other visual and audio category from @Video 1 unchanged.
@@ -236,7 +231,7 @@ Edit @Video 1. Change only <Presenter>'s spoken language to natural American Eng
 Observe the actual source ending first. Never substitute the planned ending.
 
 ```text
-@Video 1 is the source video to extend forward.
+Extend @Video 1 forward by <N> seconds. @Video 1 is the source video.
 
 The first frame of the extension directly continues the observed last frame of @Video 1. Maintain <subject pose and orientation>, <prop position>, <spatial relationships>, <camera position and composition>, <lighting>, <motion direction>, and <audio phase>.
 
@@ -250,7 +245,7 @@ Additional references may supplement identity, wardrobe, props, or sound but mus
 ### Backward Extension
 
 ```text
-@Video 1 is the source video to extend backward.
+Extend @Video 1 backward by <N> seconds. @Video 1 is the source video.
 
 Before the source video begins, <preceding action, event, camera treatment, or audio>.
 
@@ -281,7 +276,7 @@ Use matching aspect ratios. Define each endpoint separately instead of combining
 Prefer one independent image per keyframe. Separate anchor images are usually easier to align than several key states combined into one grid.
 
 ```text
-Use @Image 1 → @Image 2 → @Image 3 → @Image 4 as keyframes in this order.
+Use @Image 1 to @Image 4 in order as keyframes.
 @Image 1 is the first frame: <state>.
 @Image 2 defines the visible state at <a>s: <state>.
 @Image 3 defines the visible state at <b>s: <state>.
