@@ -50,7 +50,7 @@ Write the prompt only from the answers. When the user asks for a prompt without 
 | Image, video, or audio references | Multimodal reference | Give each asset a defined role and exclusions |
 | Several events within 30 seconds | Timeline generation | One primary state change and a visible end state per time range or shot |
 | More than 30 seconds | Multi-clip production plan | Split the work into independently generated clips of no more than 30 seconds |
-| Modify existing footage | Video edit | Declare one master video, edit scope, and preserved content |
+| Modify existing footage | Video edit | Declare one master video, edit scope, and preserved content; for a change of motion or geometry, regenerate the segment and splice it instead (see [quality-and-repair.md](references/quality-and-repair.md#unchanged-edit)) |
 | Continue existing footage | Forward or backward extension | Ground the prompt in the observed boundary frame and open motion |
 | Two endpoints or several states | First/last frame or keyframes | Define every anchor independently and connect them with continuous action |
 | Storyboard sketch or panel grid | Storyboard reference | State reading order, shot roles, and excluded line-art traits |

@@ -84,6 +84,22 @@ Check whether the prompt:
 
 When the source is correct and only one layer fails, edit again instead of regenerating the entire video.
 
+### Unchanged Edit
+
+A video edit keeps the source's geometry and motion as its skeleton: it changes appearance (objects, materials, colors, replacements) far more readily than what physically moves, opens, or travels. An edit that asks for a different motion or geometry, such as which drawer opens or where an object goes, can come back as the source almost unchanged, and rewording the prompt does not fix it.
+
+After every edit, compare the result with the source before judging it:
+
+- frame sheets of the edited range from both videos, viewed side by side;
+- SSIM per range: `ffmpeg -i source.mp4 -i result.mp4 -lavfi "[0:v][1:v]ssim=stats_file=-" -f null -` with `-ss`/`-t` on both inputs for each range (run with `LC_ALL=C` so decimals parse). An edited range whose SSIM matches the untouched ranges (about 0.97 or higher) did not change.
+
+An unchanged edit is a failed method, not a failed wording. Change the method instead of the prompt:
+
+1. **Regenerate the segment and splice it (preferred).** Extract the source frame at the segment start as the first frame, generate only the segment (`omni_reference` with `start_image`, same resolution, `generate_audio: false`), and join source head + new segment + source tail with ffmpeg, keeping the source audio track. Place the joins on existing cuts when possible.
+2. **Regenerate the whole video** with the source as a video reference and a detailed timeline, when the change spans most of the clip.
+
+For a motion or geometry change, propose the segment regeneration from the start instead of a video edit.
+
 ### Extension Failure
 
 Let accepted footage override the original plan. Record:

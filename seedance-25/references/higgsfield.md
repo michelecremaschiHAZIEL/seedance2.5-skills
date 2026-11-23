@@ -82,7 +82,8 @@ A web URL goes through `media_import_url`. `medias[].value` takes only media IDs
 4. **Confirm**: show the user the model, mode, duration, resolution, aspect ratio, audio, media count, and credits, then stop. Generate only after the user explicitly accepts this quote. A new quote is needed whenever any parameter or the prompt changes.
 5. **Generate**: `generate_video` with `params: {"ref": "<quote_ref>"}`, so the request is exactly the quoted one. Follow the tool's own rules on `folder_id`, `use_unlim`, and `unlim_choice`: when an `unlim_choice` comes back, put its question to the user.
 6. **Wait**: `jobs_wait` with the job ID until it is terminal. On a transport timeout the outcome is unknown: wait on the returned job ID; never resubmit.
-7. **Report**: state the terminal status. On `failed`, `nsfw`, or `ip_detected`, relay the reason and move to diagnosis; never resubmit with a changed prompt to get past a moderation result.
+7. **Report**: state the terminal status. On `failed`, `nsfw`, or `ip_detected`, relay the reason and move to diagnosis; never resubmit with a changed prompt to get past a moderation result. A `failed` job with a generic error ("Something went wrong") is refunded: check `transactions`, then, with the user's agreement, retry the identical request once with the same `quote_ref`; if it fails again, change one input.
+8. **Verify**: download the result and look at its frames before describing it. For an edit or an extension, compare it with the source as in [quality-and-repair.md](quality-and-repair.md#unchanged-edit); report an unchanged edit as failed and propose a change of method, not a reworded retry.
 
 One request per generation by default (`count: 1`). Use `count` 2–4 only when the user asks for variants of the same request; use `generate_video_batch` for several independent clips of a multi-clip plan, after quoting each.
 
@@ -90,6 +91,7 @@ One request per generation by default (`count: 1`). Use `count` 2–4 only when 
 
 - A draft is a `draft: true` request: Seedance renders it at 480p. Iterate on drafts until the take is accepted; each retry is a new draft.
 - Finalize an accepted draft with a request carrying `draft_job_id` and the chosen `resolution`. The final renders the draft's full duration, is billed for it, and ignores `duration`. It needs its own quote and acceptance.
+- `draft: true` brings no saving on `video_edit`: on November 23, 2026 the draft and the 480p edit of the same 15-second source were both quoted at 53 credits. Quote edits directly at the target resolution.
 - A draft can be finalized only within seven days. When delivering a draft, state the deadline.
 - Finalizing re-renders the draft through Seedance at the higher resolution; it is the path to use for an accepted draft. `upscale_video` is a separate post-process on a finished file: offer it only when the user asks for a plain upscale or the draft has expired.
 
