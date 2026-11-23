@@ -317,47 +317,53 @@ python3 seedance-25/scripts/lint_prompt.py --self-test
 
 ## Installation
 
-### Option A — personal Codex skill
+The skill runs in Claude Code. Generation needs the Higgsfield connector (MCP server) enabled in the Claude account; without it the skill still writes prompts and plans.
+
+### Option A — personal skill
 
 ```bash
-git clone git@github.com:sjinn-ai/seedance2.5-skills.git
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R seedance2.5-skills/seedance-25 "${CODEX_HOME:-$HOME/.codex}/skills/seedance-25"
+git clone https://github.com/michelecremaschiHAZIEL/seedance2.5-skills.git
+mkdir -p ~/.claude/skills
+ln -s "$PWD/seedance2.5-skills/seedance-25" ~/.claude/skills/seedance-25
 ```
-
-Restart or refresh the client after installation if it does not detect new skills automatically.
 
 ### Option B — project-local skill
 
 From the project that should use the skill:
 
 ```bash
-mkdir -p .agents/skills
-cp -R /path/to/seedance2.5-skills/seedance-25 .agents/skills/seedance-25
+mkdir -p .claude/skills
+ln -s /path/to/seedance2.5-skills/seedance-25 .claude/skills/seedance-25
 ```
 
-Use the location required by your agent client if it differs. The runtime skill is self-contained inside `seedance-25/`; the repository-level `assets/` directory is only for this README.
+A symlink keeps the repository as the only copy; `cp -R` works too, but the copy must then be refreshed by hand. Start a new Claude Code session after installation. The runtime skill is self-contained inside `seedance-25/`; the repository-level `assets/` directory is only for this README.
 
 ## Using the skill
 
-Invoke it by name and provide the brief plus any available asset descriptions:
+Invoke it with `/seedance-25` or describe the task; Claude loads it when the request matches its description. Provide the brief plus the asset files or descriptions:
 
 ```text
-$seedance-25 Create a 30-second Seedance 2.5 prompt for a two-character chase.
-Use @Image 1 for Character A's identity, @Image 2 for Character B's identity,
-@Video 1 only for the motorcycle motion, and @Audio 1 for rain ambience.
+/seedance-25 Create and generate a 12-second 16:9 Seedance 2.5 clip of a two-character chase.
+Use ./refs/a.png for Character A's identity, ./refs/b.png for Character B's identity,
+./refs/moto.mp4 only for the motorcycle motion, and ./refs/rain.wav for rain ambience.
 Keep the red bag with Character A throughout. End on both characters under the station clock.
 ```
+
+The skill compiles the prompt, uploads the local files to Higgsfield, and asks the render quality, recommending a 480p draft that is finalized at the chosen resolution once you accept the take. It quotes the cost with `estimate_video_cost` and generates only after you accept the quote. It then waits for the job and reports its status.
 
 Diagnostic example:
 
 ```text
-$seedance-25 Diagnose this failed extension. The new segment duplicates the actor,
+/seedance-25 Diagnose this failed extension. The new segment duplicates the actor,
 repeats the door opening, and reverses the camera direction. Return one changed
 variable and a conservative repaired prompt.
 ```
 
 The skill responds in the user’s requested output language, but all bundled skill instructions and documentation remain in English.
+
+### Higgsfield integration
+
+[`references/higgsfield.md`](seedance-25/references/higgsfield.md) maps each task path to the Higgsfield `seedance_2_5` request (`mode`, media roles, extension direction, drafts), sets the token form (`@Image1`, `@Video1`, `@Audio1`), and fixes the sequence lint → quote → user acceptance → generate → wait. The live `models_explore` contract overrides the values written there.
 
 ## Repository structure
 
@@ -372,10 +378,9 @@ seedance2.5-skills/
 │   └── skill-workflow.svg
 └── seedance-25/
     ├── SKILL.md
-    ├── agents/
-    │   └── openai.yaml
     ├── references/
     │   ├── capabilities-and-limits.md
+    │   ├── higgsfield.md
     │   ├── quality-and-repair.md
     │   └── task-patterns.md
     └── scripts/
@@ -391,15 +396,9 @@ seedance2.5-skills/
 | `task-patterns.md` | Mode-specific prompt patterns for generation, references, long video, edit, extension, endpoints, storyboards, blockouts, transitions, audio, performance, and camera |
 | `quality-and-repair.md` | Take triage, one-variable retries, symptom diagnosis, continuity repair, and take logs |
 | `lint_prompt.py` | English/Chinese-aware heuristic checks for common structural prompt risks |
-| `agents/openai.yaml` | Agent-facing display name, description, and default invocation prompt |
+| `higgsfield.md` | Higgsfield MCP request mapping, token form, upload, quote-and-confirm generation sequence, drafts, and known gaps |
 
 ## Validation
-
-Validate the skill structure when the Codex `skill-creator` package is installed:
-
-```bash
-python3 "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" seedance-25
-```
 
 Run the linter regression test:
 
@@ -413,11 +412,11 @@ The repository is designed to validate without network access. Live browsing is 
 
 | Component | Status | Boundary |
 |---|---|---|
-| Core skill workflow | Ready | Produces prompts and production plans; it does not call a video-generation service |
+| Core skill workflow | Ready | Produces prompts and production plans |
 | Reference library | Ready | Based on the official guides and production methods described below |
 | Prompt linter | Ready, heuristic | Detects structure risks; it does not score aesthetics or model compliance |
 | README visuals | Ready | Explanatory artwork only; not generated Seedance output samples |
-| API integration | Not included | Surface-specific APIs require separate, current verification |
+| Higgsfield integration | Ready, untested end to end | Generates through the Higgsfield MCP tools after a quote the user accepts; token numbering is unverified |
 
 This repository does not claim access to Seedance 2.5, guarantee a generation result, or treat a client’s uploaded media as proof of rights. Real-person likenesses, voices, brands, music, and protected characters should be used only with appropriate authorization or replaced by an original equivalent.
 

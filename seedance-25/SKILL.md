@@ -1,15 +1,16 @@
 ---
 name: seedance-25
-description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, or a failed Seedance 2.5 generation. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
+description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5, and generate the video on Higgsfield through its MCP server. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, a failed Seedance 2.5 generation, or generating a Seedance video on Higgsfield. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
 ---
 
 # Seedance 2.5 Director
 
-Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5 prompts. Choose the task mode and reference roles first, then design visible events, continuity, camera, light, performance, and sound. Do not substitute adjective stacks for directorial decisions.
+Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5 prompts, then generate them on Higgsfield (model `seedance_2_5`) through the Higgsfield MCP tools. Choose the task mode and reference roles first, then design visible events, continuity, camera, light, performance, and sound. Do not substitute adjective stacks for directorial decisions.
 
 ## Truth Boundary
 
 - Treat only capabilities and values stated in official sources as officially supported. Read [capabilities-and-limits.md](references/capabilities-and-limits.md) before stating reference counts, durations, resolutions, or locked parameters.
+- The generation surface is Higgsfield. Its live model contract (`models_explore`, `action: "get"`, `model_id: "seedance_2_5"`) overrides the Dreamina values for parameters, roles, durations, and resolutions; read [higgsfield.md](references/higgsfield.md) before building a request.
 - Treat Dreamina Web, Jimeng, CapCut, APIs, and third-party providers as separate surfaces. Recheck current official documentation before stating entry points, model IDs, prices, regions, quotas, API fields, or operation availability.
 - Never carry Seedance 2.0 numeric limits into 2.5. Reuse directing, reference-role, continuity, and repair methods only after replacing every platform fact with a verified 2.5 fact.
 - Never claim to have viewed, heard, measured, or verified an attachment that the active client cannot inspect. Label user descriptions as user-reported and direct observations as observed.
@@ -22,7 +23,7 @@ Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5
 Extract the following fields from information already supplied. Ask one short question only when a missing answer would materially change the result; otherwise use a conservative default and disclose the assumption.
 
 - Goal: what the viewer should see, understand, or feel.
-- Surface and task mode: text-only, multimodal reference, first-frame, first/last-frame, edit, extend, multi-clip production, one-click video, transition, storyboard, or blockout rendering.
+- Surface and task mode: Higgsfield unless the user names another surface; text-only, multimodal reference, first-frame, first/last-frame, edit, extend, multi-clip production, one-click video, transition, storyboard, or blockout rendering.
 - Duration, aspect ratio, and resolution: return configurable values as generation settings instead of prompt prose.
 - Assets: what each image, video, and audio clip can actually contribute.
 - Must preserve versus may change: identity, wardrobe, product structure, prop ownership, geography, camera, motion, and audio.
@@ -93,10 +94,10 @@ Apply these rules:
 For complex prompts, multiple time ranges, edits, or extensions, run:
 
 ```bash
-python3 scripts/lint_prompt.py PROMPT.txt --mode auto --duration 30
+python3 <skill base directory>/scripts/lint_prompt.py PROMPT.txt --mode auto --duration 30
 ```
 
-Read from standard input with `python3 scripts/lint_prompt.py - --mode edit`. Treat warnings as review signals, not model or platform guarantees.
+Read from standard input with `- --mode edit` in place of the file. The skill base directory is the one given when the skill loads. Treat warnings as review signals, not model or platform guarantees.
 
 Before delivery, confirm:
 
@@ -112,14 +113,21 @@ Before delivery, confirm:
 
 Read [quality-and-repair.md](references/quality-and-repair.md) when evaluating a returned take, choosing among keep/post/edit/re-roll/rewrite, or producing a conservative retry.
 
+### 7. Generate on Higgsfield
+
+When the user wants the video, not only the prompt, follow the generation sequence in [higgsfield.md](references/higgsfield.md): map the task path to `mode` and media roles, upload local assets, ask the user for the render quality (recommend a 480p draft, finalized at the chosen resolution once accepted), quote with `estimate_video_cost`, and stop for the user's explicit acceptance of the credits. Call `generate_video` only with the accepted `quote_ref`, then wait with `jobs_wait` until the job is terminal. Every changed parameter or prompt needs a new quote and a new acceptance.
+
+When the Higgsfield tools are not available in the session, deliver the prompt and settings and say that generation needs the Higgsfield connector.
+
 ## Output Contract
 
 Respond in the user’s requested output language while keeping all skill instructions and bundled documentation in English. Deliver:
 
-1. `Task mode and generation settings`: mode, duration, aspect ratio, resolution, and assumptions; call out automatically locked values.
+1. `Task mode and generation settings`: mode, duration, aspect ratio, resolution, and assumptions; call out automatically locked values. For Higgsfield, use its parameter names (`mode`, `duration`, `resolution`, `aspect_ratio`, `generate_audio`) and media roles.
 2. `Reference role map`: only when references exist; list what to use and what not to use for every asset.
 3. `Final prompt`: one directly copyable code block. Preserve platform reference tokens exactly and omit internal reasoning.
 4. `Risks or next step`: only one to three items that materially affect success, such as reference conflict, excessive event density, or text that belongs in post.
+5. `Quote`: when generating, the credit estimate and the request summary, followed by a stop for acceptance; after generation, the job status.
 
 When the user asks for one short prompt, omit the explanation and return only the mode or essential assumption plus the final prompt. For films, campaigns, or long-form work, return the scene or stage plan before the prompt for the current generation. Do not replace a production plan with one overloaded prompt.
 
@@ -136,4 +144,5 @@ For diagnostics, return: `Verdict → Evidence → One changed variable → Repa
 
 - Counts, durations, resolutions, modes, locked parameters, or known limitations: read [capabilities-and-limits.md](references/capabilities-and-limits.md).
 - Multimodal work, 30-second or multi-clip long-form video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, or professional camera terminology: read the matching section of [task-patterns.md](references/task-patterns.md).
+- Higgsfield requests, media upload, quotes, generation, drafts, and job status: read [higgsfield.md](references/higgsfield.md).
 - Failed output, partial success, identity drift, camera jumps, audio-video issues, or retry budgets: read [quality-and-repair.md](references/quality-and-repair.md).
