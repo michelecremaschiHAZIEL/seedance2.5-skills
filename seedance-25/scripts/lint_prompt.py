@@ -649,7 +649,7 @@ def run_self_test() -> list[str]:
     failures: list[str] = []
 
     valid_edit = """
-@Video 1 is the sole editing master. Change only the cool blue light on the
+Edit @Video 1: it is the sole editing master. Change only the cool blue light on the
 right wall from 4–7 seconds to warm orange. Preserve identity, wardrobe,
 action, composition, camera, dialogue, and ambience.
 """
@@ -679,6 +679,44 @@ action, composition, camera, dialogue, and ambience.
     inferred_mode, _ = lint_prompt(inferred_extension, "auto", None)
     if inferred_mode != "extend":
         failures.append("extension was misclassified as first-last")
+
+    trigger_cases = [
+        (
+            "edit",
+            "@Video 1 is the sole editing master. Change only the lamp color. "
+            "Preserve everything else.",
+            "Edit @Video 1: it is the sole editing master. Change only the lamp "
+            "color. Preserve everything else.",
+        ),
+        (
+            "extend",
+            "@Video 1 is the source. The extension's first frame continues the "
+            "actual last frame; maintain the camera.",
+            "Extend @Video 1 forward by 5 seconds: the extension's first frame "
+            "continues the actual last frame; maintain the camera.",
+        ),
+        (
+            "keyframes",
+            "A spirit fish flies over the mountains, then into a hall. "
+            "@Image 1 to @Image 3 are the keyframes, in order.",
+            "Use @Image 1 to @Image 3 in order as keyframes. A spirit fish flies "
+            "over the mountains, then into a hall.",
+        ),
+    ]
+    for trigger_mode, without_trigger, with_trigger in trigger_cases:
+        _, issues = lint_prompt(without_trigger, trigger_mode, None)
+        if not any(
+            issue.code == "missing-task-trigger" and issue.severity == "error"
+            for issue in issues
+        ):
+            failures.append(
+                f"{trigger_mode} prompt without an opening task trigger was not detected"
+            )
+        _, issues = lint_prompt(with_trigger, trigger_mode, None)
+        if any(issue.code == "missing-task-trigger" for issue in issues):
+            failures.append(
+                f"{trigger_mode} prompt with an opening task trigger was flagged"
+            )
 
     _, issues = lint_prompt("[Stage 1] One event. End state: complete.", "long", 31)
     if not any(issue.code == "duration-exceeds-generic-limit" for issue in issues):
