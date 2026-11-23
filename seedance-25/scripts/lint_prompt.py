@@ -27,6 +27,31 @@ BRACKET_REFERENCE_RE = re.compile(
     r"\[(?:image|video|audio|\u56fe\u7247|\u89c6\u9891|\u97f3\u9891)\s*\d+\]",
     re.IGNORECASE,
 )
+SENTENCE_END_RE = re.compile(r"[.!?\u3002\uff01\uff1f](?:\s|$)")
+TASK_TRIGGERS = {
+    "edit": re.compile(
+        r"\b(?:edit|add|insert|remove|delete|modify|replace|change)\b|"
+        r"\u7f16\u8f91|\u6dfb\u52a0|\u63d2\u5165|\u5220\u9664|\u53bb\u9664|"
+        r"\u4fee\u6539|\u66ff\u6362|\u6539\u4e3a|\u66f4\u6362",
+        re.IGNORECASE,
+    ),
+    "extend": re.compile(
+        r"\b(?:extend|continue)\b|"
+        r"\u5ef6\u957f|\u5ef6\u4f38|\u7eed\u5199|\u627f\u63a5",
+        re.IGNORECASE,
+    ),
+    "keyframes": re.compile(
+        r"keyframes?\b.*\border\b|\border\b.*\bkeyframes?\b|"
+        r"\u5173\u952e\u5e27.*(?:\u6309|\u4f9d\u6b21|\u987a\u5e8f)|"
+        r"(?:\u6309|\u4f9d\u6b21|\u987a\u5e8f).*\u5173\u952e\u5e27",
+        re.IGNORECASE,
+    ),
+}
+TASK_TRIGGER_EXAMPLES = {
+    "edit": "Edit @Video1: replace / remove / add ...",
+    "extend": "Extend @Video1 forward by N seconds: ... or Continue from the end of @Video1: ...",
+    "keyframes": "Use @Image1 to @ImageN in order as keyframes.",
+}
 TIME_RANGE_RE = re.compile(
     r"(?P<start>\d+(?:\.\d+)?)\s*(?:s|\u79d2|sec(?:onds?)?)?\s*"
     r"[-\u2013\u2014~\uff5e\u81f3\u5230]\s*"
@@ -89,6 +114,7 @@ def infer_mode(text: str, requested: str) -> str:
             "keyframes",
             (
                 "keyframes in this order",
+                "in order as keyframes",
                 "keyframe sequence",
                 "\u591a\u5173\u952e\u5e27",
             ),
@@ -270,8 +296,28 @@ def lint_references(text: str) -> list[Issue]:
     return issues
 
 
+def opening_sentence(text: str) -> str:
+    first_line = next((line for line in text.splitlines() if line.strip()), "")
+    match = SENTENCE_END_RE.search(first_line)
+    return first_line[: match.start()] if match else first_line
+
+
+def lint_task_trigger(text: str, mode: str) -> list[Issue]:
+    trigger = TASK_TRIGGERS.get(mode)
+    if trigger is None or trigger.search(opening_sentence(text)):
+        return []
+    return [
+        Issue(
+            "error",
+            "missing-task-trigger",
+            f"The opening sentence does not declare the {mode} task. "
+            f"Start with: {TASK_TRIGGER_EXAMPLES[mode]}",
+        )
+    ]
+
+
 def lint_mode(text: str, mode: str, duration: float | None) -> list[Issue]:
-    issues: list[Issue] = []
+    issues: list[Issue] = lint_task_trigger(text, mode)
 
     if mode == "edit":
         if not contains_any(
