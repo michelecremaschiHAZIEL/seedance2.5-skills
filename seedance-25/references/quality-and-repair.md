@@ -44,9 +44,9 @@ Set an attempt budget and a written definition of “good enough” before gener
 | Face, character, or product drifts | The prompt redescribes reference-defined identity or overloads motion/style | Remove duplicated static description; keep identity or geometry locks |
 | Multiple people look alike or swap faces | Characters are not individually named and bound; action, position, or dialogue ownership is ambiguous | Give each character a separate token, profile, position, and dialogue; prohibit swapping |
 | Subject count increases or objects duplicate | Multiple views are interpreted as separate subjects; count is not locked | State that every view depicts one subject and lock the output count |
-| Prop drifts or changes owner | Prop ownership, position, or stage end state is missing | Record who holds it, where it is, and its state after every stage |
+| Prop drifts or changes owner | Prop ownership, position, or stage end state is missing | Record who holds it, where it is, and its state after every time range |
 | Motion is ignored | The prompt contains atmosphere but no trigger, change, or consequence | Write initial state → action → visible consequence → end state |
-| Action is rushed or omitted | Too many events occupy one time range | Keep one primary state change per stage and allocate more time |
+| Action is rushed or omitted | Too many events occupy one time range | Keep one primary state change per time range and allocate more time |
 | Camera jumps | Several incompatible moves or no endpoint | Keep one primary move and define start, subject, direction, and endpoint |
 | Camera hides the key action | Decorative camera language outranks action legibility | Simplify or delay the move so the camera covers the decisive beat |
 | Output feels generic | Empty quality words replace concrete action, material, light, and sound | Replace adjectives with one physical action, one real light source, and one sound cue |
@@ -59,7 +59,7 @@ Set an attempt budget and a written definition of “good enough” before gener
 | An edit changes the whole clip | No sole master, scope, or preservation list | Rewrite as sole master + one changed layer + everything else preserved |
 | Extension does not connect | The actual boundary frame is unobserved; motion/camera/audio phase is lost | Rewrite from the observed first/last frame and inherit every open vector |
 | Extension repeats an old action | Completed beats are not recorded | State that the beat is complete and must not replay; continue from its end state |
-| A future event appears early | The current stage contains later information or assets | Remove the later beat and reserve it for the next stage |
+| A future event appears early | The current time range contains later information or assets | Remove the later beat and reserve it for the next range |
 | First/last-frame arrival is unstable | Endpoint roles are combined, ratios differ, or the bridge is overloaded | Define endpoints separately, match ratios, and reduce to one continuous action |
 | Blockout render drifts | Coarse versus fine blockout is misclassified; inherited dimensions are unclear | Decide motion skeleton versus complete geometry, then separate inheritance from re-rendering |
 | Transition looks like a hard cut | No trigger, coverage process, or arrival state | Define occlusion/morph trigger, continuous motion, corresponding element, and audio bridge |

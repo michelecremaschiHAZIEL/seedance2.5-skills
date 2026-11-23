@@ -48,7 +48,7 @@ Write the prompt only from the answers. When the user asks for a prompt without 
 |---|---|---|
 | Clear standalone shot | Basic generation | One primary visible event and one primary camera move |
 | Image, video, or audio references | Multimodal reference | Give each asset a defined role and exclusions |
-| Several events within 30 seconds | Staged generation | One primary state change and a visible end state per stage |
+| Several events within 30 seconds | Timeline generation | One primary state change and a visible end state per time range or shot |
 | More than 30 seconds | Multi-clip production plan | Split the work into independently generated clips of no more than 30 seconds |
 | Modify existing footage | Video edit | Declare one master video, edit scope, and preserved content |
 | Continue existing footage | Forward or backward extension | Ground the prompt in the observed boundary frame and open motion |
@@ -66,18 +66,24 @@ Read only the matching section of [task-patterns.md](references/task-patterns.md
 Complete reference binding before writing creative prose:
 
 1. Preserve every platform-inserted reference token exactly, including language, spacing, capitalization, and numbering. Never translate, reorder, or normalize a token.
-2. Assign each asset one primary role: identity, wardrobe, product geometry, environment, first frame, last frame, motion, camera, pacing, audio, or style.
-3. Add exclusions, such as: “Use the choreography only; do not transfer the performer, wardrobe, room, or logo.”
-4. Name and bind every important character, product, and prop individually. Avoid vague mappings such as “Images 1–4 correspond to four people respectively.”
-5. Select references by scene instead of requiring every asset to appear at once.
-6. When several views depict one subject, say so explicitly and lock the output count.
-7. Resolve conflicts in this order: safety and rights → verified surface limits → explicit user must-haves → reference contracts → continuity → action legibility → camera logic → decorative style.
+2. Number assets per type in the order their subjects first appear in the video (`@Image1` is the first subject on screen) and send them in that order. Seedance maps numbers to upload order; any other order swaps characters.
+3. Assign each asset one primary role: identity, wardrobe, product geometry, environment, first frame, last frame, motion, camera, pacing, audio, or style.
+4. Add exclusions, such as: “Use the choreography only; do not transfer the performer, wardrobe, room, or logo.”
+5. Name and bind every important character, product, and prop individually. Avoid vague mappings such as “Images 1–4 correspond to four people respectively.”
+6. Select references by scene instead of requiring every asset to appear at once.
+7. When several views depict one subject, say so explicitly and lock the output count.
+8. Resolve conflicts in this order: safety and rights → verified surface limits → explicit user must-haves → reference contracts → continuity → action legibility → camera logic → decorative style.
 
 ### 4. Direct Before Compiling
 
-Choose one intention for each shot. Make action, camera, light, performance, and sound serve that intention. Compile in this order:
+Choose one intention for each shot. Make action, camera, light, performance, and sound serve that intention. Compile in this order, following the official prompt formula:
 
-`Reference roles → Generation goal → Subject and primary event → Scene or stage progression → Camera → Light and visual treatment → Audio → Continuity and exclusions`
+`Reference mapping → One-sentence summary → Timeline → Constant notes`
+
+1. Reference mapping (only with references): each asset by number and purpose.
+2. One-sentence summary: subject + location + event + genre or style + camera.
+3. Timeline: the plot split into whole-second ranges (`0-3s`, `3-8s`) or `Shot N`; each segment gives its visuals, action, camera, dialogue, and sound, and ends on a visible state.
+4. Constant notes: what holds for the whole video, such as camera style, environment, light, sound and atmosphere, identity, and subject count.
 
 Apply these rules:
 
@@ -88,7 +94,7 @@ Apply these rules:
 - Translate abstract emotion into two to four visible or audible cues: gaze, brow tension, mouth movement, breathing, hands, posture, or delivery.
 - When a reference already controls motion or camera accurately, state only what to inherit. Do not restate a competing choreography.
 - Keep duration, aspect ratio, and resolution outside prompt prose when they are generation-page settings. Include time only when it controls event pacing or task boundaries.
-- Prefer stages for ordinary narrative. Use exact seconds only for a critical handoff, entrance, exit, transition, or beat. Keep time ranges consecutive and non-overlapping.
+- Seedance 2.5 responds to whole-second timestamps; use them as the default timeline, or `Shot N` for cut-based work. Keep ranges consecutive, gap-free, and within the duration; give each range enough content and no more than it can hold. Timestamps set event order and pacing, not high-frequency actions such as "shakes his head three times per second".
 - Recommend prepared reference material and post-production when subtitles, formulas, logos, specifications, or frame-accurate timing must be exact.
 
 ### 5. Apply Mode-Specific Protections
@@ -114,7 +120,7 @@ Read from standard input with `- --mode edit` in place of the file. The skill ba
 Before delivery, confirm:
 
 - Every asset has a role and exclusions; every subject has an unambiguous mapping.
-- Every stage has one primary change and a visible end state.
+- Every time range or shot has one primary change and a visible end state.
 - Character count, identity, wardrobe, prop ownership, screen direction, geography, and audio remain continuous.
 - Camera does not hide the decisive action; style does not override identity or continuity.
 - An edit defines the sole master, scope, target count, and preserved content.
@@ -141,7 +147,7 @@ Respond in the user’s requested output language while keeping all skill instru
 4. `Risks or next step`: only one to three items that materially affect success, such as reference conflict, excessive event density, or text that belongs in post.
 5. `Quote`: when generating, the credit estimate and the request summary, followed by a stop for acceptance; after generation, the job status.
 
-When the user asks for one short prompt, omit the explanation and return only the mode or essential assumption plus the final prompt. For films, campaigns, or long-form work, return the scene or stage plan before the prompt for the current generation. Do not replace a production plan with one overloaded prompt.
+When the user asks for one short prompt, omit the explanation and return only the mode or essential assumption plus the final prompt. For films, campaigns, or long-form work, return the scene or shot plan before the prompt for the current generation. Do not replace a production plan with one overloaded prompt.
 
 For diagnostics, return: `Verdict → Evidence → One changed variable → Repaired prompt`. If the primary objective succeeded and the defect belongs in post, do not default to full regeneration.
 

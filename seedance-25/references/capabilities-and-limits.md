@@ -16,6 +16,8 @@ This page summarizes Dreamina official material dated July 31, 2026 and verified
 - [Dreamina Seedance 2.5 User Guide](https://bytedance.larkoffice.com/wiki/NjnWwvf4BiFYFLk2RzrcEgaunGf)
 - [Dreamina Seedance 2.5 Prompt Guide](https://bytedance.larkoffice.com/docx/A88jd0B47oAd8zxWp5ycZFMfnxh)
 
+The [BytePlus Seedance 2.5 prompt guide](https://docs.byteplus.com/en/docs/modelark/seedance-2-5-prompt-guide) (updated November 19, 2026, read on November 23, 2026) is the source for the prompt formula, whole-second timestamps, and upload-order numbering.
+
 The official pages were compared with the user-provided copied text. The textual table of contents and body were complete. Embedded images, finished videos, and some visual comparisons were not included in the copied text, so never describe those example results as visually verified.
 
 The workflow design also draws from the MIT-licensed [Emily2040/seedance-2.0](https://github.com/Emily2040/seedance-2.0), especially its mode routing, reference contracts, continuity truth, and one-variable retake method. Use only the official 2.5 sources above for 2.5 capability and numeric claims.
@@ -51,7 +53,7 @@ Additional guidance:
 
 For a generic or unknown Seedance 2.5 surface, treat 30 seconds as the maximum duration of one direct generation. Plan anything longer as several independently generated clips. Treat extension ranges as surface-specific and verify that the active surface exposes the operation before recommending it.
 
-Treat timestamps as event budgets, not frame-accurate edit points. Actions may occur slightly before or after a range boundary.
+Seedance 2.5 responds to whole-second timestamps. Treat them as event budgets, not frame-accurate edit points. Actions may occur slightly before or after a range boundary.
 
 ## Task Modes and Locked Parameters
 

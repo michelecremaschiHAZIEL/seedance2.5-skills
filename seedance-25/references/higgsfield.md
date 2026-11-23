@@ -56,7 +56,8 @@ For extensions and edits of a take generated in this conversation, pass its job 
 
 Higgsfield inserts no tokens: this skill writes them. Use the Higgsfield form, without a space: `@Image1`, `@Video1`, `@Audio1`. Convert the `@Image 1` form used in [task-patterns.md](task-patterns.md) templates when compiling.
 
-- Number tokens per media type in the order the items appear in `medias`: the first `image_references` item is `@Image1`, the first `video_references` item is `@Video1`.
+- Number tokens per media type in upload order, which on Higgsfield is the order of the items in `medias`: the first `image_references` item is `@Image1`, the first `video_references` item is `@Video1`. The [BytePlus Seedance 2.5 prompt guide](https://docs.byteplus.com/en/docs/modelark/seedance-2-5-prompt-guide) states that numbering follows upload order, per type.
+- Put the items in `medias` in the order their subjects first appear in the video. The guide documents swapped characters when the order differs.
 - Refer to `start_image` and `end_image` in prose ("the first frame", "the last frame"), not by token.
 - Keep the role map, the `medias` array, and the tokens in the prompt in the same order; check all three before the quote.
 
@@ -101,6 +102,6 @@ One request per generation by default (`count: 1`). Use `count` 2–4 only when 
 
 These points were not confirmed by Higgsfield documentation when this page was written. When a result contradicts them, tell the user and propose correcting this page.
 
-- Token numbering by order within each media type in `medias`.
+- That Higgsfield passes `medias` to Seedance in array order (the guide confirms upload-order numbering for the BytePlus API only).
 - Whether `start_image` and `end_image` count in `@Image` numbering.
 - Whether a transition between two `video_references` behaves like the Dreamina Seamless Video Transition.

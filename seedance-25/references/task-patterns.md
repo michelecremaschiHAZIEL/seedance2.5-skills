@@ -20,7 +20,7 @@
 
 Read and apply only the section that matches the active task. Treat each template as a compilation scaffold, not a form that must retain every field. Delete every line that adds no useful control.
 
-- Preserve the user’s or platform’s reference tokens exactly. The tokens `@Image 1`, `@Video 1`, and `@Audio 1` below are placeholders only.
+- Preserve the user’s or platform’s reference tokens exactly. The tokens `@Image 1`, `@Video 1`, and `@Audio 1` below are placeholders only; number real assets per type in order of first appearance on screen.
 - Put configurable aspect ratio, resolution, and generation duration in a separate settings block rather than prompt prose.
 - Deliver natural-language production direction, not a mechanical dump of template labels.
 - Protect identity, product geometry, prop ownership, geography, and event continuity before decorative style.
@@ -32,23 +32,17 @@ Read and apply only the section that matches the active task. Treat each templat
 Compile in this order:
 
 ```text
-[Generation Goal]
-Generate a <type of video>. The central subject is <subject>, and the primary event is <event>.
+<Genre/style>. <Subject> <event> in <location>; <camera in a few words>.
 
-[Picture and Event]
-<Subject> completes <action> in <environment>. The action begins with <initial state>, changes through <decisive beat>, and ends with <visible state>.
+<Subject details, environment details, shot size and angle, primary camera move.>
 
-[Camera and Light]
-Begin with <shot size/angle>. The camera <movement> and settles on <endpoint>. The primary light comes from <physical source and direction>, causing <visible effect>.
+0s-<a>s: <initial state>, <action>, <camera>. <Sound>. End state: <visible state>.
+<a>s-<b>s: <action>, <camera>. <Sound>. End state: <visible state>.
 
-[Sound]
-Include or preserve <ambience>, <action sound>, <dialogue>, or <music>.
-
-[Continuity and Exclusions]
-Keep <locks> consistent. Do not introduce <excluded content>.
+<Constant notes: camera style, depth of field, light source and direction, ambience, atmosphere, identity and count held throughout.>
 ```
 
-Default to one primary event and one primary camera move. Split several complex actions into stages or separate shots.
+This follows the official formula: one-sentence summary, detailed plot by timeline, constant notes. Default to one primary event and one primary camera move. Split several complex actions into more time ranges or separate shots.
 
 ### Image-to-Video
 
@@ -110,35 +104,23 @@ Never write “Use all references for style.” Remove every asset that has no r
 
 ## Thirty-Second and Multi-Clip Video
 
-### Staged Video Within 30 Seconds
+### Timeline Within 30 Seconds
 
-Give each stage one primary state change and a visible end state:
+Give each time range one primary state change and a visible end state. Use `Shot N` instead of ranges when the video is a sequence of cuts:
 
 ```text
-[Generation Goal]
-Generate a <type of video>. The central subject is <subject>, and the primary event is <summary>.
+<Genre/style>. <Subject> <summary of the event> in <location>; <camera>.
 
-[Stage 1]
-Initial state: <characters, props, and environment>.
-Primary event: <one change>.
-End state: <visible state>.
+0s-<a>s: <characters, props, and environment>. <One change>. End state: <visible state>.
+<a>s-<b>s: Continue from the previous state. <One change>. End state: <visible state>.
+<b>s-<c>s: <Closing change>. End state: <final visible state>.
 
-[Stage 2]
-Continue from the previous stage: keep <locks> unchanged.
-Primary event: <one change>.
-End state: <visible state>.
-
-[Stage 3]
-Primary event: <closing change>.
-End state: <final visible state>.
-
-[Maintain Throughout]
-Keep character identity and count, wardrobe, prop ownership, screen direction, lighting logic, and audio relationships consistent.
+Throughout: keep character identity and count, wardrobe, prop ownership, screen direction, lighting logic, and audio relationships consistent.
 ```
 
 ### Timestamps
 
-Use ranges to allocate event budgets, one exact point for a critical beat, and relative timing for a delay:
+Seedance 2.5 responds to whole-second timestamps (Seedance 2.0 responded only to shot numbers). Use one-second units: ranges to allocate event budgets, one exact point for a critical beat, and relative timing for a delay:
 
 ```text
 0–5 seconds: <event>. End state: <state>.
@@ -154,6 +136,7 @@ Check that:
 - one second does not contain several complete actions;
 - too little content does not leave unnecessary freedom;
 - too much content does not force cuts or omissions;
+- timestamps do not drive high-frequency actions, such as a gesture repeated several times per second;
 - timestamps are not presented as frame-accurate edit points.
 
 ### Long-Form Production Beyond 30 Seconds
@@ -300,8 +283,8 @@ Prefer one independent image per keyframe. Separate anchor images are usually ea
 ```text
 Use @Image 1 → @Image 2 → @Image 3 → @Image 4 as keyframes in this order.
 @Image 1 is the first frame: <state>.
-@Image 2 defines the visible end state of Stage 1: <state>.
-@Image 3 defines the visible end state of Stage 2: <state>.
+@Image 2 defines the visible state at <a>s: <state>.
+@Image 3 defines the visible state at <b>s: <state>.
 @Image 4 is the last frame: <state>.
 
 Pass through these states in order and connect them with continuous action. Maintain <identity, geometry, ownership, geography, light, and axis> throughout.

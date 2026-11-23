@@ -167,14 +167,10 @@ When several images show one subject, the prompt says so explicitly and locks th
 The final prompt is compiled in this order:
 
 ```text
-Reference roles
-→ Generation goal
-→ Subject and primary event
-→ Scene or stage progression
-→ Camera
-→ Light and visual treatment
-→ Audio
-→ Continuity and exclusions
+Reference mapping
+→ One-sentence summary (subject + location + event + style + camera)
+→ Timeline (whole-second ranges or Shot N)
+→ Constant notes
 ```
 
 The architecture favors observable choices:
@@ -184,7 +180,7 @@ The architecture favors observable choices:
 - “Her gaze drops, jaw tightens, right hand releases the key, and breathing becomes shallow” instead of “very emotional.”
 - “The glass fractures from the impact point, fragments catch the desk light, then settle on the floor” instead of “epic destruction.”
 
-Each action should expose an initial state, trigger, change, consequence, and visible end state. Exact seconds are reserved for critical handoffs, entrances, exits, transitions, or beats; ordinary narrative is organized by stages.
+Each action should expose an initial state, trigger, change, consequence, and visible end state. Seedance 2.5 responds to whole-second timestamps, so the plot is organized as a timeline (`0s-3s`, `3s-8s`) or as `Shot N`.
 
 ## Example: multimodal scene
 
@@ -416,7 +412,7 @@ The repository is designed to validate without network access. Live browsing is 
 | Reference library | Ready | Based on the official guides and production methods described below |
 | Prompt linter | Ready, heuristic | Detects structure risks; it does not score aesthetics or model compliance |
 | README visuals | Ready | Explanatory artwork only; not generated Seedance output samples |
-| Higgsfield integration | Ready, untested end to end | Generates through the Higgsfield MCP tools after a quote the user accepts; token numbering is unverified |
+| Higgsfield integration | Ready, untested end to end | Generates through the Higgsfield MCP tools after a quote the user accepts; Higgsfield's media order is unverified |
 
 This repository does not claim access to Seedance 2.5, guarantee a generation result, or treat a client’s uploaded media as proof of rights. Real-person likenesses, voices, brands, music, and protected characters should be used only with appropriate authorization or replaced by an original equivalent.
 
