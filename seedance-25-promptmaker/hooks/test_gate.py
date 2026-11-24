@@ -23,6 +23,11 @@ AL_REQUEST = {"prompt": GOOD_PROMPT, "modelGroupId": 515,
               "settings": {"duration": "5", "resolution": "480p", "aspect_ratio": "16:9"}}
 
 
+def said(role, text):
+    """One transcript entry, as Claude Code writes it."""
+    return {"type": role, "message": {"role": role, "content": [{"type": "text", "text": text}]}}
+
+
 class GateTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -31,8 +36,12 @@ class GateTest(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def run_gate(self, mode, tool_name, tool_input, tool_response=None):
+    def run_gate(self, mode, tool_name, tool_input, tool_response=None, transcript=None):
         event = {"session_id": self.session, "tool_name": tool_name, "tool_input": tool_input}
+        if transcript is not None:
+            path = Path(self.tmp.name) / "transcript.jsonl"
+            path.write_text("".join(json.dumps(entry) + "\n" for entry in transcript))
+            event["transcript_path"] = str(path)
         if tool_response is not None:
             event["tool_response"] = tool_response
         env = dict(os.environ, TMPDIR=self.tmp.name)
@@ -44,8 +53,8 @@ class GateTest(unittest.TestCase):
         out = json.loads(result.stdout)["hookSpecificOutput"]
         return out["permissionDecision"], out["permissionDecisionReason"]
 
-    def pre(self, tool, tool_input):
-        return self.run_gate("pre", tool, tool_input)
+    def pre(self, tool, tool_input, transcript=None):
+        return self.run_gate("pre", tool, tool_input, transcript=transcript)
 
     def post(self, tool, tool_input, response):
         return self.run_gate("post", tool, tool_input, response)
@@ -82,6 +91,36 @@ class GateTest(unittest.TestCase):
         self.assertIn("intake", reason)
         self.asked()
         self.assertEqual(self.pre(HF + "estimate_video_cost", {"params": HF_PARAMS}), (None, ""))
+
+    # -- gate 4: the quoted prompt was shown to the user
+    def test_quote_of_prompt_never_shown_is_denied(self):
+        self.asked()
+        transcript = [said("assistant", "Here is the plan, quoting now.")]
+        decision, reason = self.pre(HF + "estimate_video_cost", {"params": HF_PARAMS}, transcript)
+        self.assertEqual(decision, "deny")
+        self.assertIn("code block", reason)
+        decision, _ = self.pre(AL + "get_generation_cost", dict(AL_REQUEST, kind="video"), transcript)
+        self.assertEqual(decision, "deny")
+
+    def test_quote_of_prompt_shown_in_code_block_passes(self):
+        self.asked()
+        # Whitespace and a language tag on the fence do not matter.
+        shown = "Updated prompt:\n\n```text\n" + GOOD_PROMPT.replace("\n", "\n\n  ") + "\n```\nQuoting."
+        transcript = [said("assistant", shown)]
+        self.assertEqual(self.pre(HF + "estimate_video_cost", {"params": HF_PARAMS}, transcript), (None, ""))
+        self.assertEqual(self.pre(AL + "get_generation_cost", dict(AL_REQUEST, kind="video"), transcript),
+                         (None, ""))
+
+    def test_quote_of_changed_prompt_after_showing_old_one_is_denied(self):
+        self.asked()
+        transcript = [said("assistant", "```\n" + GOOD_PROMPT + "\n```")]
+        changed = dict(HF_PARAMS, prompt=GOOD_PROMPT.replace("slow", "fast"))
+        self.assertEqual(self.pre(HF + "estimate_video_cost", {"params": changed}, transcript)[0], "deny")
+
+    def test_prompt_only_in_user_message_or_outside_code_block_is_denied(self):
+        self.asked()
+        transcript = [said("user", "```\n" + GOOD_PROMPT + "\n```"), said("assistant", GOOD_PROMPT)]
+        self.assertEqual(self.pre(HF + "estimate_video_cost", {"params": HF_PARAMS}, transcript)[0], "deny")
 
     # -- gate 2: generate only from a quote
     def test_higgsfield_raw_params_denied(self):

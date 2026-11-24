@@ -50,11 +50,11 @@ Local files are named in the brief with their role, for example `./refs/a.png fo
 
 The skill's hooks turn the generation rules into checks. They register when the skill is invoked and stay active for the rest of the session:
 
-| Before                | Check                                                                                                                                        |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| A quote               | Denied when the prompt fails the linter; asks you when no intake question was asked                                                          |
-| A generation          | Denied when it does not match a quote made in this session (Higgsfield: the `quote_ref`; Artlist: the same prompt, settings, and references) |
-| Every paid generation | Asks you, showing platform, settings, credits, and any skipped step: the other platform not quoted, balances not read, no intake questions   |
+| Before                | Check                                                                                                                                         |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| A quote               | Denied when the prompt fails the linter or was not shown to you, exactly as sent, in a code block; asks you when no intake question was asked |
+| A generation          | Denied when it does not match a quote made in this session (Higgsfield: the `quote_ref`; Artlist: the same prompt, settings, and references)  |
+| Every paid generation | Asks you, showing platform, settings, credits, and any skipped step: the other platform not quoted, balances not read, no intake questions    |
 
 A generation made without invoking the skill is outside these hooks. To cover it, add an equivalent hook to `~/.claude/settings.json`.
 

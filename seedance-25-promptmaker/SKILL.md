@@ -160,7 +160,7 @@ When the user wants the video, not only the prompt, quote it on both platforms a
 6. **Ask** with AskUserQuestion which platform to generate on: one option per quoted platform, plus "neither, change the request". Mark an option recommended only when the other platform cannot cover the cost or run the request. The choice is the acceptance of that platform's quote.
 7. **Generate** on the chosen platform with its quoted request, then wait, report, and verify as its page's Generation sequence says. Every changed parameter or prompt needs new quotes and a new choice.
 
-The skill's hooks ([hooks/gate.py](hooks/gate.py)) enforce this step once the skill is invoked: a quote whose prompt fails the linter is denied, a generation that does not match a quote made in this session is denied, and every paid generation asks the user, naming any skipped step.
+The skill's hooks ([hooks/gate.py](hooks/gate.py)) enforce this step once the skill is invoked: a quote whose prompt fails the linter, or was not shown to the user in a code block, is denied, a generation that does not match a quote made in this session is denied, and every paid generation asks the user, naming any skipped step.
 
 When only one platform's tools are available, quote that one, show its balance, and ask for acceptance; name the missing connector. When neither is available, deliver the prompt and settings and say that generation needs the Higgsfield or Artlist connector.
 
@@ -170,7 +170,7 @@ Respond in the user’s requested output language while keeping all skill instru
 
 1. `Task mode and generation settings`: mode, duration, aspect ratio, resolution, and assumptions; call out automatically locked values. Use the platform's own parameter names once a platform is chosen ([artlist.md](references/artlist.md#correspondence-table) maps them).
 2. `Reference role map`: only when references exist; list what to use and what not to use for every asset.
-3. `Final prompt`: one directly copyable code block. Preserve platform reference tokens exactly and omit internal reasoning.
+3. `Final prompt`: one directly copyable code block. Preserve platform reference tokens exactly and omit internal reasoning. Every time the prompt changes (a linter fix, a user revision, a repair, a retry, a translation, or a compression), show the whole updated prompt in a new code block before quoting or generating with it, so the user sees every prompt that reaches a platform.
 4. `Risks or next step`: only one to three items that materially affect success, such as reference conflict, excessive event density, or text that belongs in post.
 5. `Quote`: when generating, the platform comparison table of step 7 and the question of which platform to use; after generation, the job status.
 

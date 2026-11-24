@@ -15,6 +15,10 @@ Gates:
    quote made in this session.
 3. A quote or an unquoted generation whose prompt fails lint_prompt.py with an
    error is denied.
+4. A quote whose prompt was never shown to the user is denied: the exact
+   prompt, whitespace aside, must appear as a fenced code block in an
+   assistant message of the session transcript. Generations need a quote, so
+   every generated prompt was shown.
 """
 
 from __future__ import annotations
@@ -116,6 +120,41 @@ def lint(prompt: str, duration) -> str | None:
     return (result.stdout + result.stderr).strip()
 
 
+CODE_BLOCK = re.compile(r"```[^\n]*\n(.*?)```", re.S)
+
+
+def squash(text: str) -> str:
+    return " ".join(text.split())
+
+
+def prompt_shown(prompt: str, transcript_path: str | None) -> bool:
+    """True when the prompt appears as a code block in an assistant message.
+
+    Without a transcript path there is nothing to check, so the gate passes.
+    """
+    if not isinstance(prompt, str) or not prompt.strip() or not transcript_path:
+        return True
+    target = squash(prompt)
+    try:
+        with open(transcript_path, encoding="utf-8") as transcript:
+            for line in transcript:
+                try:
+                    entry = json.loads(line)
+                except ValueError:
+                    continue
+                if entry.get("type") != "assistant":
+                    continue
+                content = (entry.get("message") or {}).get("content")
+                texts = [content] if isinstance(content, str) else [
+                    b.get("text", "") for b in content or [] if isinstance(b, dict) and b.get("type") == "text"]
+                for text in texts:
+                    if any(squash(block) == target for block in CODE_BLOCK.findall(text)):
+                        return True
+    except OSError:
+        return False
+    return False
+
+
 def decide(decision: str, reason: str) -> None:
     print(json.dumps({"hookSpecificOutput": {
         "hookEventName": "PreToolUse",
@@ -213,6 +252,10 @@ def pre(event: dict) -> None:
         if report:
             decide("deny", "The prompt fails the skill linter (SKILL.md step 6). Fix the errors, then "
                            "quote again.\n" + report)
+            return
+        if not prompt_shown(prompt, event.get("transcript_path")):
+            decide("deny", "This prompt was never shown to the user. Show the whole prompt, exactly as "
+                           "sent, in a code block (SKILL.md Output Contract, item 3), then quote again.")
             return
         if not state["asked"]:
             decide("ask", "No intake question was asked in this session (SKILL.md step 1 asks every open "
