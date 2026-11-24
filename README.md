@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/seedance-25-hero.png" alt="A Seedance 2.5 direction console combining image, video, audio, camera, and continuity references into one shot" width="100%">
-</p>
-
 # Seedance 2.5 Director
 
 A Claude Code skill that turns an idea, a script, or a set of images, videos, and audio clips into a Seedance 2.5 prompt, then generates the video on **Higgsfield** or **Artlist** through their MCP servers, on the platform you choose after seeing both quotes.
@@ -54,11 +50,11 @@ Local files are named in the brief with their role, for example `./refs/a.png fo
 
 The skill's hooks turn the generation rules into checks. They register when the skill is invoked and stay active for the rest of the session:
 
-| Before | Check |
-|---|---|
-| A quote | Denied when the prompt fails the linter; asks you when no intake question was asked |
-| A generation | Denied when it does not match a quote made in this session (Higgsfield: the `quote_ref`; Artlist: the same prompt, settings, and references) |
-| Every paid generation | Asks you, showing platform, settings, credits, and any skipped step: the other platform not quoted, balances not read, no intake questions |
+| Before                | Check                                                                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| A quote               | Denied when the prompt fails the linter; asks you when no intake question was asked                                                          |
+| A generation          | Denied when it does not match a quote made in this session (Higgsfield: the `quote_ref`; Artlist: the same prompt, settings, and references) |
+| Every paid generation | Asks you, showing platform, settings, credits, and any skipped step: the other platform not quoted, balances not read, no intake questions   |
 
 A generation made without invoking the skill is outside these hooks. To cover it, add an equivalent hook to `~/.claude/settings.json`.
 
@@ -89,13 +85,13 @@ python3 -I seedance-25/hooks/test_gate.py
 
 ## Status
 
-| Part | Status |
-|---|---|
-| Prompt workflow and references | Ready |
-| Linter | Ready; heuristic, it does not judge aesthetics |
-| Higgsfield generation | Ready |
-| Artlist generation | Quotes verified; generation not yet tested end to end |
-| Hooks | Tested, and verified live on a Higgsfield quote and a blocked generation |
+| Part                           | Status                                                                   |
+| ------------------------------ | ------------------------------------------------------------------------ |
+| Prompt workflow and references | Ready                                                                    |
+| Linter                         | Ready; heuristic, it does not judge aesthetics                           |
+| Higgsfield generation          | Ready                                                                    |
+| Artlist generation             | Quotes verified; generation not yet tested end to end                    |
+| Hooks                          | Tested, and verified live on a Higgsfield quote and a blocked generation |
 
 Open points: whether each platform passes references to Seedance in the order sent, and how many references Artlist accepts. Each platform page lists its gaps.
 
