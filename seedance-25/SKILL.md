@@ -1,6 +1,22 @@
 ---
 name: seedance-25
 description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5, and generate the video on Higgsfield or Artlist through their MCP servers. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, a failed Seedance 2.5 generation, or generating a Seedance video on Higgsfield or Artlist. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
+hooks:
+  PreToolUse:
+    - matcher: "^mcp__.*__(estimate_video_cost|get_generation_cost|generate_video|generate_video_batch|generate_batch|render_draft)$"
+      hooks:
+        - type: command
+          command: >-
+            for d in "${CLAUDE_SKILL_DIR}" "$CLAUDE_PROJECT_DIR/.claude/skills/seedance-25" "$HOME/.claude/skills/seedance-25";
+            do [ -f "$d/hooks/gate.py" ] && exec python3 -I "$d/hooks/gate.py" pre; done;
+            printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"seedance-25 gate script not found: confirm this call yourself."}}'
+  PostToolUse:
+    - matcher: "^(AskUserQuestion|mcp__.*__(estimate_video_cost|get_generation_cost|balance|get_balance))$"
+      hooks:
+        - type: command
+          command: >-
+            for d in "${CLAUDE_SKILL_DIR}" "$CLAUDE_PROJECT_DIR/.claude/skills/seedance-25" "$HOME/.claude/skills/seedance-25";
+            do [ -f "$d/hooks/gate.py" ] && exec python3 -I "$d/hooks/gate.py" post; done; true
 ---
 
 # Seedance 2.5 Director
@@ -143,6 +159,8 @@ When the user wants the video, not only the prompt, quote it on both platforms a
 5. **Present** one table with a column per platform: settings that differ, credits for this generation, estimated finalize credits for a draft, and remaining credits. Say that the two platforms' credits are different currencies, so the numbers compare only within each platform.
 6. **Ask** with AskUserQuestion which platform to generate on: one option per quoted platform, plus "neither, change the request". Mark an option recommended only when the other platform cannot cover the cost or run the request. The choice is the acceptance of that platform's quote.
 7. **Generate** on the chosen platform with its quoted request, then wait, report, and verify as its page's Generation sequence says. Every changed parameter or prompt needs new quotes and a new choice.
+
+The skill's hooks ([hooks/gate.py](hooks/gate.py)) enforce this step once the skill is invoked: a quote whose prompt fails the linter is denied, a generation that does not match a quote made in this session is denied, and every paid generation asks the user, naming any skipped step.
 
 When only one platform's tools are available, quote that one, show its balance, and ask for acceptance; name the missing connector. When neither is available, deliver the prompt and settings and say that generation needs the Higgsfield or Artlist connector.
 
