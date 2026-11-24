@@ -1,16 +1,16 @@
 ---
 name: seedance-25
-description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5, and generate the video on Higgsfield through its MCP server. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, a failed Seedance 2.5 generation, or generating a Seedance video on Higgsfield. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
+description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5, and generate the video on Higgsfield or Artlist through their MCP servers. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, a failed Seedance 2.5 generation, or generating a Seedance video on Higgsfield or Artlist. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
 ---
 
 # Seedance 2.5 Director
 
-Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5 prompts, then generate them on Higgsfield (model `seedance_2_5`) through the Higgsfield MCP tools. Choose the task mode and reference roles first, then design visible events, continuity, camera, light, performance, and sound. Do not substitute adjective stacks for directorial decisions.
+Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5 prompts, then generate them on Higgsfield (model `seedance_2_5`) or Artlist (Seedance 2.5 family) through their MCP tools, on the platform the user picks after comparing both quotes. Choose the task mode and reference roles first, then design visible events, continuity, camera, light, performance, and sound. Do not substitute adjective stacks for directorial decisions.
 
 ## Truth Boundary
 
 - Treat only capabilities and values stated in official sources as officially supported. Read [capabilities-and-limits.md](references/capabilities-and-limits.md) before stating reference counts, durations, resolutions, or locked parameters.
-- The generation surface is Higgsfield. Its live model contract (`models_explore`, `action: "get"`, `model_id: "seedance_2_5"`) overrides the Dreamina values for parameters, roles, durations, and resolutions; read [higgsfield.md](references/higgsfield.md) before building a request.
+- The generation surfaces are Higgsfield and Artlist. Each one's live model contract (Higgsfield `models_explore`; Artlist `list_models` and `get_model_config`) overrides the Dreamina values for parameters, roles, durations, and resolutions on that surface; read [higgsfield.md](references/higgsfield.md) and [artlist.md](references/artlist.md) before building a request.
 - Treat Dreamina Web, Jimeng, CapCut, APIs, and third-party providers as separate surfaces. Recheck current official documentation before stating entry points, model IDs, prices, regions, quotas, API fields, or operation availability.
 - Never carry Seedance 2.0 numeric limits into 2.5. Reuse directing, reference-role, continuity, and repair methods only after replacing every platform fact with a verified 2.5 fact.
 - Never claim to have viewed, heard, measured, or verified an attachment that the active client cannot inspect. Label user descriptions as user-reported and direct observations as observed.
@@ -23,7 +23,7 @@ Compile ideas, scripts, and multimodal assets into production-ready Seedance 2.5
 Extract the following fields from information already supplied, then run the intake below before writing any prompt.
 
 - Goal: what the viewer should see, understand, or feel.
-- Surface and task mode: Higgsfield unless the user names another surface; text-only, multimodal reference, first-frame, first/last-frame, edit, extend, multi-clip production, one-click video, transition, storyboard, or blockout rendering.
+- Surface and task mode: Higgsfield or Artlist, chosen in step 7 unless the user names one; text-only, multimodal reference, first-frame, first/last-frame, edit, extend, multi-clip production, one-click video, transition, storyboard, or blockout rendering.
 - Duration, aspect ratio, and resolution: return configurable values as generation settings instead of prompt prose.
 - Assets: what each image, video, and audio clip can actually contribute.
 - Must preserve versus may change: identity, wardrobe, product structure, prop ownership, geography, camera, motion, and audio.
@@ -38,7 +38,7 @@ Extract the following fields from information already supplied, then run the int
 4. Setting and light: place details, time of day, weather, light source.
 5. Camera: shot plan and primary move, including how the shot ends.
 6. Sound: ambience and effects, music, dialogue, or silence.
-7. Render quality, when generating on Higgsfield: see [higgsfield.md](references/higgsfield.md), step 2 of the generation sequence.
+7. Render quality, when generating: see [higgsfield.md](references/higgsfield.md), step 2 of the generation sequence; on Artlist a draft renders to 1080p only (see [artlist.md](references/artlist.md#drafts-and-rendering)).
 
 Write the prompt only from the answers. When the user asks for a prompt without questions, or says to choose, use the recommended options and list them as assumptions.
 
@@ -132,21 +132,29 @@ Before delivery, confirm:
 
 Read [quality-and-repair.md](references/quality-and-repair.md) when evaluating a returned take, choosing among keep/post/edit/re-roll/rewrite, or producing a conservative retry.
 
-### 7. Generate on Higgsfield
+### 7. Compare Platforms and Generate
 
-When the user wants the video, not only the prompt, follow the generation sequence in [higgsfield.md](references/higgsfield.md): map the task path to `mode` and media roles, upload local assets, ask the user for the render quality (recommend a 480p draft, finalized at the chosen resolution once accepted), quote with `estimate_video_cost`, and stop for the user's explicit acceptance of the credits. Call `generate_video` only with the accepted `quote_ref`, then wait with `jobs_wait` until the job is terminal. Every changed parameter or prompt needs a new quote and a new acceptance.
+When the user wants the video, not only the prompt, quote it on both platforms and let the user choose. Skip the comparison only when the user already named a platform in this conversation.
 
-When the Higgsfield tools are not available in the session, deliver the prompt and settings and say that generation needs the Higgsfield connector.
+1. **Build both requests** from the same settings: the Higgsfield request from [higgsfield.md](references/higgsfield.md), the Artlist request from the correspondence table in [artlist.md](references/artlist.md#correspondence-table). When the task path or a setting exists on one platform only (extension, a draft finalized at 720p or 4K, first/last frames with supporting references), quote that platform alone and give the reason.
+2. **Upload** local assets to each platform quoted, following each page's Local files section.
+3. **Quote** on each platform: Higgsfield `estimate_video_cost`, Artlist `get_generation_cost`. For a draft, quote the draft and the estimated finalize on each.
+4. **Read balances**: Higgsfield `balance`, Artlist `get_balance`.
+5. **Present** one table with a column per platform: settings that differ, credits for this generation, estimated finalize credits for a draft, remaining credits, and credits left after the generation. Say that the two platforms' credits are different currencies, so the numbers compare only within each platform.
+6. **Ask** with AskUserQuestion which platform to generate on: one option per quoted platform, plus "neither, change the request". Mark an option recommended only when the other platform cannot cover the cost or run the request. The choice is the acceptance of that platform's quote.
+7. **Generate** on the chosen platform with its quoted request, then wait, report, and verify as its page's Generation sequence says. Every changed parameter or prompt needs new quotes and a new choice.
+
+When only one platform's tools are available, quote that one, show its balance, and ask for acceptance; name the missing connector. When neither is available, deliver the prompt and settings and say that generation needs the Higgsfield or Artlist connector.
 
 ## Output Contract
 
 Respond in the user’s requested output language while keeping all skill instructions and bundled documentation in English. Deliver:
 
-1. `Task mode and generation settings`: mode, duration, aspect ratio, resolution, and assumptions; call out automatically locked values. For Higgsfield, use its parameter names (`mode`, `duration`, `resolution`, `aspect_ratio`, `generate_audio`) and media roles.
+1. `Task mode and generation settings`: mode, duration, aspect ratio, resolution, and assumptions; call out automatically locked values. Use the platform's own parameter names once a platform is chosen ([artlist.md](references/artlist.md#correspondence-table) maps them).
 2. `Reference role map`: only when references exist; list what to use and what not to use for every asset.
 3. `Final prompt`: one directly copyable code block. Preserve platform reference tokens exactly and omit internal reasoning.
 4. `Risks or next step`: only one to three items that materially affect success, such as reference conflict, excessive event density, or text that belongs in post.
-5. `Quote`: when generating, the credit estimate and the request summary, followed by a stop for acceptance; after generation, the job status.
+5. `Quote`: when generating, the platform comparison table of step 7 and the question of which platform to use; after generation, the job status.
 
 When the user asks for one short prompt, omit the explanation and return only the mode or essential assumption plus the final prompt. For films, campaigns, or long-form work, return the scene or shot plan before the prompt for the current generation. Do not replace a production plan with one overloaded prompt.
 
@@ -164,4 +172,5 @@ For diagnostics, return: `Verdict → Evidence → One changed variable → Repa
 - Counts, durations, resolutions, modes, locked parameters, or known limitations: read [capabilities-and-limits.md](references/capabilities-and-limits.md).
 - Multimodal work, 30-second or multi-clip long-form video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, or professional camera terminology: read the matching section of [task-patterns.md](references/task-patterns.md).
 - Higgsfield requests, media upload, quotes, generation, drafts, and job status: read [higgsfield.md](references/higgsfield.md).
+- Artlist requests, the Higgsfield-to-Artlist correspondence, and the platform comparison: read [artlist.md](references/artlist.md).
 - Failed output, partial success, identity drift, camera jumps, audio-video issues, or retry budgets: read [quality-and-repair.md](references/quality-and-repair.md).

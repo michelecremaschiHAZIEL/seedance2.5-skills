@@ -87,5 +87,5 @@ The official Dreamina User Guide lists 480p and 720p output for Seedance 2.5. Do
 1. Scope these values to official Dreamina Seedance 2.5 material. Do not extend them to an unknown surface.
 2. If the active surface is unknown, still write the prompt but describe operations conditionally, such as “if your surface exposes video extension.”
 3. If two official passages differ semantically, prefer the more task-specific table and disclose the discrepancy.
-4. On Higgsfield, the live `models_explore` contract for `seedance_2_5` decides parameters, roles, ranges, and resolutions for that surface; the Dreamina values remain the reference for directing guidance.
+4. On Higgsfield, the live `models_explore` contract for `seedance_2_5` decides parameters, roles, ranges, and resolutions for that surface, and on Artlist `get_model_config` for the Seedance 2.5 family does; the Dreamina values remain the reference for directing guidance.
 5. Never let a third-party blog override official documentation. Use third-party information only as a lead that still requires verification.

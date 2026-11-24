@@ -314,7 +314,7 @@ python3 seedance-25/scripts/lint_prompt.py --self-test
 
 ## Installation
 
-The skill runs in Claude Code. Generation needs the Higgsfield connector (MCP server) enabled in the Claude account; without it the skill still writes prompts and plans.
+The skill runs in Claude Code. Generation needs the Higgsfield or Artlist connector (MCP server) enabled in the Claude account; with both, the skill quotes the video on each and lets you choose. Without either, it still writes prompts and plans.
 
 ### Option A — personal skill
 
@@ -346,7 +346,7 @@ Use ./refs/a.png for Character A's identity, ./refs/b.png for Character B's iden
 Keep the red bag with Character A throughout. End on both characters under the station clock.
 ```
 
-The skill compiles the prompt, uploads the local files to Higgsfield, and asks the render quality, recommending a 480p draft that is finalized at the chosen resolution once you accept the take. It quotes the cost with `estimate_video_cost` and generates only after you accept the quote. It then waits for the job and reports its status.
+The skill compiles the prompt and asks the render quality, recommending a 480p draft that is finalized once you accept the take. It uploads the local files to Higgsfield and Artlist, quotes the video on both, shows the remaining credits on each, and asks which platform to use. It generates only on the platform you pick, then waits for the job and reports its status.
 
 Diagnostic example:
 
@@ -362,6 +362,10 @@ The skill responds in the user’s requested output language, but all bundled sk
 
 [`references/higgsfield.md`](seedance-25/references/higgsfield.md) maps each task path to the Higgsfield `seedance_2_5` request (`mode`, media roles, extension direction, drafts), sets the token form (`@Image1`, `@Video1`, `@Audio1`), and fixes the sequence lint → quote → user acceptance → generate → wait. The live `models_explore` contract overrides the values written there.
 
+### Artlist integration
+
+[`references/artlist.md`](seedance-25/references/artlist.md) maps every Higgsfield parameter and task path to the Artlist Seedance 2.5 family, lists what only one platform offers (extension on Higgsfield; MOV output, saved references, and style kits on Artlist), and holds the Artlist call sequence. Step 7 of `SKILL.md` quotes both platforms, shows both balances, and lets the user choose.
+
 ## Repository structure
 
 ```text
@@ -376,6 +380,7 @@ seedance2.5-skills/
 └── seedance-25/
     ├── SKILL.md
     ├── references/
+    │   ├── artlist.md
     │   ├── capabilities-and-limits.md
     │   ├── higgsfield.md
     │   ├── quality-and-repair.md
@@ -394,6 +399,7 @@ seedance2.5-skills/
 | `quality-and-repair.md` | Take triage, one-variable retries, symptom diagnosis, continuity repair, and take logs |
 | `lint_prompt.py` | English/Chinese-aware heuristic checks for common structural prompt risks |
 | `higgsfield.md` | Higgsfield MCP request mapping, token form, upload, quote-and-confirm generation sequence, drafts, and known gaps |
+| `artlist.md` | Higgsfield-to-Artlist correspondence table, Artlist MCP request mapping, upload, generation sequence, drafts, and known gaps |
 
 ## Validation
 
@@ -414,6 +420,7 @@ The repository is designed to validate without network access. Live browsing is 
 | Prompt linter | Ready, heuristic | Detects structure risks; it does not score aesthetics or model compliance |
 | README visuals | Ready | Explanatory artwork only; not generated Seedance output samples |
 | Higgsfield integration | Ready, untested end to end | Generates through the Higgsfield MCP tools after a quote the user accepts; Higgsfield's media order is unverified |
+| Artlist integration | Ready, untested end to end | Quoted next to Higgsfield; no extension, drafts render to 1080p only; Artlist's media order and reference limits are unverified |
 
 This repository does not claim access to Seedance 2.5, guarantee a generation result, or treat a client’s uploaded media as proof of rights. Real-person likenesses, voices, brands, music, and protected characters should be used only with appropriate authorization or replaced by an original equivalent.
 
