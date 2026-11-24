@@ -22,24 +22,24 @@ Personal skill:
 ```bash
 git clone https://github.com/michelecremaschiHAZIEL/seedance2.5-skills.git
 mkdir -p ~/.claude/skills
-ln -s "$PWD/seedance2.5-skills/seedance-25" ~/.claude/skills/seedance-25
+ln -s "$PWD/seedance2.5-skills/seedance-25-promptmaker" ~/.claude/skills/seedance-25-promptmaker
 ```
 
 Project skill, from the project that uses it:
 
 ```bash
 mkdir -p .claude/skills
-ln -s /path/to/seedance2.5-skills/seedance-25 .claude/skills/seedance-25
+ln -s /path/to/seedance2.5-skills/seedance-25-promptmaker .claude/skills/seedance-25-promptmaker
 ```
 
 Keep the skill at one of these two paths: the hooks look for their script there. Start a new Claude Code session after installing or updating.
 
 ## Usage
 
-Invoke `/seedance-25` with the brief, or describe a Seedance 2.5 task and Claude loads the skill:
+Invoke `/seedance-25-promptmaker` with the brief, or describe a Seedance 2.5 task and Claude loads the skill:
 
 ```text
-/seedance-25 A man and a woman collide on a crowded sidewalk while on their phones.
+/seedance-25-promptmaker A man and a woman collide on a crowded sidewalk while on their phones.
 His phone falls and a taxi crushes it; she throws hers into the street and they
 walk off hand in hand.
 ```
@@ -61,7 +61,7 @@ A generation made without invoking the skill is outside these hooks. To cover it
 ## Structure
 
 ```text
-seedance-25/
+seedance-25-promptmaker/
 ├── SKILL.md                       entry point: workflow, output contract, hooks
 ├── hooks/
 │   ├── gate.py                    quote and generation guardrails
@@ -79,8 +79,8 @@ seedance-25/
 ## Tests
 
 ```bash
-python3 seedance-25/scripts/lint_prompt.py --self-test
-python3 -I seedance-25/hooks/test_gate.py
+python3 seedance-25-promptmaker/scripts/lint_prompt.py --self-test
+python3 -I seedance-25-promptmaker/hooks/test_gate.py
 ```
 
 ## Status

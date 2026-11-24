@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generation gates for the seedance-25 skill.
+"""Generation gates for the seedance-25-promptmaker skill.
 
 Registered by the skill's frontmatter. `pre` runs before a quote or a paid
 generation and returns a PreToolUse decision; `post` runs after intake
@@ -29,7 +29,7 @@ import tempfile
 from pathlib import Path
 
 LINTER = Path(__file__).resolve().parent.parent / "scripts" / "lint_prompt.py"
-STATE_DIR = Path(tempfile.gettempdir()) / "seedance-25-hooks"
+STATE_DIR = Path(tempfile.gettempdir()) / "seedance-25-promptmaker-hooks"
 
 QUOTE_TOOLS = {"estimate_video_cost", "get_generation_cost"}
 GENERATE_TOOLS = {"generate_video", "generate_video_batch", "generate_batch", "render_draft"}

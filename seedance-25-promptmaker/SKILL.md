@@ -1,5 +1,5 @@
 ---
-name: seedance-25
+name: seedance-25-promptmaker
 description: Create, revise, compress, translate, diagnose, and production-plan prompts for Dreamina/Seedance 2.5, and generate the video on Higgsfield or Artlist through their MCP servers. Use when the user mentions Seedance 2.5, Dreamina 2.5, text/image/video/audio-to-video, multimodal references, videos up to 30 seconds, multi-clip long-form production, timestamps, first/last frames, multiple keyframes, video editing, forward/backward extension, one-click video, seamless transitions, storyboard grids, blockout or clay rendering, dialogue/audio control, character consistency, a failed Seedance 2.5 generation, or generating a Seedance video on Higgsfield or Artlist. Do not apply Seedance 2.0 numeric limits to 2.5 or claim current API, price, region, quota, or surface availability without live verification.
 hooks:
   PreToolUse:
@@ -7,15 +7,15 @@ hooks:
       hooks:
         - type: command
           command: >-
-            for d in "${CLAUDE_SKILL_DIR}" "$CLAUDE_PROJECT_DIR/.claude/skills/seedance-25" "$HOME/.claude/skills/seedance-25";
+            for d in "${CLAUDE_SKILL_DIR}" "$CLAUDE_PROJECT_DIR/.claude/skills/seedance-25-promptmaker" "$HOME/.claude/skills/seedance-25-promptmaker";
             do [ -f "$d/hooks/gate.py" ] && exec python3 -I "$d/hooks/gate.py" pre; done;
-            printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"seedance-25 gate script not found: confirm this call yourself."}}'
+            printf '%s\n' '{"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"ask","permissionDecisionReason":"seedance-25-promptmaker gate script not found: confirm this call yourself."}}'
   PostToolUse:
     - matcher: "^(AskUserQuestion|mcp__.*__(estimate_video_cost|get_generation_cost|balance|get_balance))$"
       hooks:
         - type: command
           command: >-
-            for d in "${CLAUDE_SKILL_DIR}" "$CLAUDE_PROJECT_DIR/.claude/skills/seedance-25" "$HOME/.claude/skills/seedance-25";
+            for d in "${CLAUDE_SKILL_DIR}" "$CLAUDE_PROJECT_DIR/.claude/skills/seedance-25-promptmaker" "$HOME/.claude/skills/seedance-25-promptmaker";
             do [ -f "$d/hooks/gate.py" ] && exec python3 -I "$d/hooks/gate.py" post; done; true
 ---
 

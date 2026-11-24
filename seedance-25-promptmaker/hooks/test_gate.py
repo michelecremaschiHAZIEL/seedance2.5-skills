@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression tests for gate.py: python3 -I seedance-25/hooks/test_gate.py"""
+"""Regression tests for gate.py: python3 -I seedance-25-promptmaker/hooks/test_gate.py"""
 
 import json
 import os
