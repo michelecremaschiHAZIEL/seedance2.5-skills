@@ -140,7 +140,7 @@ When the user wants the video, not only the prompt, quote it on both platforms a
 2. **Upload** local assets to each platform quoted, following each page's Local files section.
 3. **Quote** on each platform: Higgsfield `estimate_video_cost`, Artlist `get_generation_cost`. For a draft, quote the draft and the estimated finalize on each.
 4. **Read balances**: Higgsfield `balance`, Artlist `get_balance`.
-5. **Present** one table with a column per platform: settings that differ, credits for this generation, estimated finalize credits for a draft, remaining credits, and credits left after the generation. Say that the two platforms' credits are different currencies, so the numbers compare only within each platform.
+5. **Present** one table with a column per platform: settings that differ, credits for this generation, estimated finalize credits for a draft, and remaining credits. Say that the two platforms' credits are different currencies, so the numbers compare only within each platform.
 6. **Ask** with AskUserQuestion which platform to generate on: one option per quoted platform, plus "neither, change the request". Mark an option recommended only when the other platform cannot cover the cost or run the request. The choice is the acceptance of that platform's quote.
 7. **Generate** on the chosen platform with its quoted request, then wait, report, and verify as its page's Generation sequence says. Every changed parameter or prompt needs new quotes and a new choice.
 
