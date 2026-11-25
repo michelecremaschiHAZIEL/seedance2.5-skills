@@ -15,6 +15,7 @@
 - [Audio and dialogue](#audio-and-dialogue)
 - [Characters and performance](#characters-and-performance)
 - [Camera language](#camera-language)
+- [Mood to camera and light](#mood-to-camera-and-light)
 
 ## Usage Principles
 
@@ -461,3 +462,57 @@ Whip-pan transition: at <critical beat>, pan rapidly <direction>; cut when <fore
 ```
 
 Focal length, aperture, and shutter values may supplement direction, but a visible result is usually clearer than a number alone.
+
+## Mood to Camera and Light
+
+Use this section during intake, before asking the camera and light questions. Adapted from Luma, "27 Cinematic AI Video Prompts" (https://lumalabs.ai/news/cinematic-ai-video-prompts).
+
+### Read the Mood
+
+1. State the mood of the whole video in one line: the feeling the viewer should leave with.
+2. Split the brief into scenes or beats. For each, name its dramatic function (introduce, build tension, impact, decision, reveal, release, farewell) and its mood in one or two words.
+3. Mark the key beats: a decision, a discovery, an impact. Spend the strongest camera choice there, not on every scene.
+
+### Choose Camera per Scene
+
+| Mood or function | Camera options | Visible effect to write |
+|---|---|---|
+| Intimacy, focus, emotional beat, decision | Slow dolly push-in; close-up; extreme close-up | The frame closes in on the face, eyes, or hands until the detail dominates |
+| Momentum, journey, engagement | Tracking shot alongside the subject | The camera keeps a steady distance while the background slides past |
+| Authentic, candid, documentary | Handheld | Light, human-scale shake that follows the subject; state how much |
+| Energy, speed, immersion in action | FPV | Fast weaving path close to obstacles; state route, speed, and turns |
+| Power, authority, a character taking control | Low angle | Camera below eye line; the subject towers over the frame |
+| Vulnerability, isolation, smallness | High angle; wide shot with a small subject | Camera above; the subject shrinks inside the surroundings |
+| Unease, psychological tension, disorientation | Dutch angle (state the degrees, e.g. 15°) | Tilted horizon; verticals run diagonally |
+| Impact, scale, exaggeration | Worm's eye view | Lens at ground level; the approaching object looms large |
+| Empathy, seeing through a character | POV; over-the-shoulder | The frame is the character's view, or framed past one shoulder toward the other |
+| Context, geography, opening | Wide establishing shot; bird's eye view; pan | The whole place reads; the subject's position in it is clear |
+| Showcase, hero moment, scale of an object | Orbit | The camera circles the subject at constant distance; state direction |
+| Transition, ending, leaving the scene | Crane up or down | The camera rises (or descends) and the subject is revealed within, or lost in, the wider scene |
+| Conversation, balance of context and closeness | Medium shot | Waist-up framing with room for gesture and surroundings |
+
+Default to one primary camera move per shot, as in [Camera language](#camera-language), and bind it to subject, start, direction, speed, and endpoint.
+
+### Choose Light for the Video
+
+Light usually holds for the whole video; change it only when the story changes time or place, and write it in the constant notes.
+
+| Mood | Light options | Visible effect to write |
+|---|---|---|
+| Warmth, romance, nostalgia | Golden hour | Low warm sun, long soft shadows, warm rim on hair and skin |
+| Contemplation, melancholy, urban calm | Blue hour | Cool twilight sky, first warm street lights and windows |
+| Drama, mystery, genre tension | Film noir high contrast | Deep blacks, hard shadows, a single hard source |
+| Night energy, tech, future | Neon | Colored practical lights (name the colors) reflected on wet surfaces |
+| Gravity, character portrait | Rembrandt | Key light from one side; small triangle of light on the shadowed cheek |
+| Reveal, mystery, release | Backlight or silhouette | Light source behind the subject; bright rim or a dark outline |
+| Awe, spiritual or epic moment, depth | Volumetric | Visible rays through haze, dust, or mist |
+| Calm, approachable, clean | Soft diffused | Even overcast light, minimal shadows |
+
+Optional film look, applied to the whole video: anamorphic (horizontal flares, oval bokeh) for a premium, theatrical feel; vintage grain and faded color for nostalgia. Keep look and light consistent across clips of one production.
+
+### Propose and Let the User Choose
+
+- Camera: for each scene, offer two or three options from the table, the recommended one first, each with a short reason tied to the scene's mood.
+- Light: offer two or three options for the whole video, plus a film look only when it serves the mood.
+- With more than four scenes, group the camera choices into a table and ask the user to accept it or name the scenes to change, so the intake stays within a few rounds.
+- Write the chosen options as visible effects in the prompt, never as mood words alone ("cinematic", "dramatic").

@@ -46,13 +46,13 @@ Extract the following fields from information already supplied, then run the int
 - Audio: dialogue language or accent, speaker, delivery, ambience, sound effects, music, or silence.
 - Rights: whether likenesses, voices, brands, music, and source assets are owned, licensed, or otherwise authorized.
 
-**Intake.** Ask the user every decision the brief leaves open, each as a question with two to four concrete options drawn from the brief, the recommended option first and marked as such. Use the AskUserQuestion tool, at most four questions per call, in rounds until no decision is open; the user can always answer with their own text. Skip a decision the user already made. Cover, in this order:
+**Intake.** Before asking, read the mood of the whole video and of each scene as in [Mood to camera and light](references/task-patterns.md#mood-to-camera-and-light); state it to the user in one line per scene. Ask the user every decision the brief leaves open, each as a question with two to four concrete options drawn from the brief, the recommended option first and marked as such. Use the AskUserQuestion tool, at most four questions per call, in rounds until no decision is open; the user can always answer with their own text. Skip a decision the user already made. Cover, in this order:
 
 1. References: whether the user has images, videos, or audio to use (a person or object to keep identical, a first or last frame, a movement or camera to copy, a clip to edit or continue, a voice or sound). Offer "no references, text only" as an option. For each file named, ask its role when the brief does not make it clear; the role map is built in step 3.
 2. Format: aspect ratio and duration; when the events need more time than the requested duration, offer a longer duration as an option and say why.
 3. Look: visual style (photoreal, animation, a period or genre look) and the subject's appearance (age, build, wardrobe).
-4. Setting and light: place details, time of day, weather, light source.
-5. Camera: shot plan and primary move, including how the shot ends.
+4. Setting and light: place details, time of day, weather; the light style for the whole video, proposed from its mood (see [Mood to camera and light](references/task-patterns.md#mood-to-camera-and-light)).
+5. Camera: shot plan and primary move for each scene, proposed from that scene's mood (same section), including how the shot ends.
 6. Sound: ambience and effects, music, dialogue, or silence.
 7. Render quality, when generating: see [higgsfield.md](references/higgsfield.md), step 2 of the generation sequence; on Artlist a draft renders to 1080p only (see [artlist.md](references/artlist.md#drafts-and-rendering)).
 
@@ -188,7 +188,7 @@ For diagnostics, return: `Verdict → Evidence → One changed variable → Repa
 ## Reference Routing
 
 - Counts, durations, resolutions, modes, locked parameters, or known limitations: read [capabilities-and-limits.md](references/capabilities-and-limits.md).
-- Multimodal work, 30-second or multi-clip long-form video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, or professional camera terminology: read the matching section of [task-patterns.md](references/task-patterns.md).
+- Multimodal work, 30-second or multi-clip long-form video, edits, extensions, first/last frames, keyframes, storyboards, blockouts, one-click video, transitions, audio syntax, multi-stage performance, professional camera terminology, or choosing camera and light from mood: read the matching section of [task-patterns.md](references/task-patterns.md).
 - Higgsfield requests, media upload, quotes, generation, drafts, and job status: read [higgsfield.md](references/higgsfield.md).
 - Artlist requests, the Higgsfield-to-Artlist correspondence, and the platform comparison: read [artlist.md](references/artlist.md).
 - Failed output, partial success, identity drift, camera jumps, audio-video issues, or retry budgets: read [quality-and-repair.md](references/quality-and-repair.md).
